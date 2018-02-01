@@ -14,7 +14,8 @@ def makeCmaAid(aid):
     cmaAid.reverse()
     return str(cmaAid)
 def getNumberOfUnlockedTrophies():
-    return int(binascii.hexlify(trpHandle.read()[0x187:0x187+0x1]),16)
+    n = str(binascii.hexlify(trpHandle.read()[0x187:0x187+0x1]))
+    return int(n,16)
 
 def getNpCommId():
     return trpHandle.read()[0x170:0x170 + 0x0C]
@@ -22,20 +23,22 @@ def getNpCommId():
 def getNpCommSign():
     return binascii.hexlify(trpHandle.read()[0x19C:0x19C + 0x94])
 
-def findTownOfBeginings(v):
+def findDataZone(v):
         begin = 0x2B7
         end = begin + 0xAC
         a = 0
         while a != v:
-            begin += 0x2B7 #+ 0x05
+            begin += 0xAC +0x04
             end = begin + 0xAC
             a += 1
         return {"begin":begin,"end":end}
 
 def getTrophyDataBlock(v):
-    begin = findTownOfBeginings(v)["begin"]
-    end = findTownOfBeginings(v)["end"]
+    begin = findDataZone(v)["begin"]
+    end = findDataZone(v)["end"]
     return binascii.hexlify(trpHandle.read()[begin:end])
 
-
+a = 0
+num = getNumberOfUnlockedTrophies()
 print getTrophyDataBlock(0)
+a += 1
