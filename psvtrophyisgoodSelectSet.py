@@ -76,7 +76,7 @@ class psvtrophyisgood:
         self.trophySetSelector.configure(width=440)
         a = 0
         for file in os.listdir(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data"):
-            if file != "sce_trop":
+            if not file == "sce_trop" and not file.endswith("_decrypted"):
                 self.trophySetSelector.insert(a,file)
             a += 1
 

@@ -1,4 +1,4 @@
-
+import psvtrophyisgoodModTRP
 
 from Tkinter import *
 
@@ -21,6 +21,8 @@ def npCommSign():
 def selectSet(npCommId):
     print "Decrypting "+npCommId
     PFS.decryptPFS(os.getcwd()+"/data/"+npCommId)
+    destroy_window()
+    psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root

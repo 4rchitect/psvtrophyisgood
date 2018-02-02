@@ -1,7 +1,7 @@
 import binascii
-global trpData
 
 def init(path):
+    global trpData
     trpData = open(path, "rb").read()
 
 def getAccountId():
@@ -62,9 +62,3 @@ def parseTrophyDataBlock(v):
 
     return {"grade":trophyType,"unlocked":unlocked,"timestamp":timestamp}
 
-def getNumberOfTrophies():
-    a = 1
-    while True:
-        if parseTrophyDataBlock(a) == {'grade': 'Unknown', 'timestamp': ['00000000000000', '00000000000000'],'unlocked': False}:
-            return a
-        a += 1
