@@ -1,10 +1,8 @@
-import datetime
 import binascii
+global trpData
 
-trpFile = "C:\Users\Matthew\Documents\PSVTROPHYISGOOD\data\DecryptedData\TRPTRANS.DAT"
-
-trpData = open(trpFile, "rb").read()
-
+def init(path):
+    trpData = open(path, "rb").read()
 
 def getAccountId():
     return binascii.hexlify(trpData[0x120:0x120+0x8])
@@ -36,16 +34,6 @@ def getTrophyDataBlock(v):
     begin = findDataZone(v)["begin"]
     end = findDataZone(v)["end"]
     return binascii.hexlify(trpData[begin:end])
-
-def decodeTimestamp(timestamp):
-    timestamp = int(timestamp,16)
-    return datetime.datetime.fromordinal(1) + datetime.timedelta(microseconds=timestamp)
-
-def encodeTimestamp(dateandtime):
-    dt = datetime.datetime.strptime(dateandtime, "%Y-%m-%d %H:%M:%S.%f")
-    timestamp = (dt - datetime.datetime(1, 1, 1)).total_seconds() * 1000000
-    return hex(int(timestamp))[2:-1]
-
 
 
 def parseTrophyDataBlock(v):
