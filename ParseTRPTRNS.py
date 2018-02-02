@@ -45,3 +45,38 @@ def encodeTimestamp(dateandtime):
     dt = datetime.datetime.strptime(dateandtime, "%Y-%m-%d %H:%M:%S.%f")
     timestamp = (dt - datetime.datetime(1, 1, 1)).total_seconds() * 1000000
     return hex(int(timestamp))[2:-1]
+
+
+
+def parseTrophyDataBlock(v):
+    trophyDataBlock = getTrophyDataBlock(v)
+    trophyType = trophyDataBlock[96:96 + 2]
+    if trophyType == "01":
+        trophyType = "Platinum"
+    elif trophyType == "02":
+        trophyType = "Gold"
+    elif trophyType == "03":
+        trophyType = "Silver"
+    elif trophyType == "04":
+        trophyType = "Bronze"
+    else:
+        trophyType = "Unknown"
+    unlocked = trophyDataBlock[32:32+2]
+    if unlocked == "02":
+        unlocked = True
+    elif unlocked == "00":
+        unlocked = False
+    else:
+        unlocked = "Unknown"
+    timestamp = [0,0]
+    timestamp[0] = trophyDataBlock[116:116+14]
+    timestamp[1] = trophyDataBlock[132:132+14]
+
+    return {"grade":trophyType,"unlocked":unlocked,"timestamp":timestamp}
+
+def getNumberOfTrophies():
+    a = 1
+    while True:
+        if parseTrophyDataBlock(a) == {'grade': 'Unknown', 'timestamp': ['00000000000000', '00000000000000'],'unlocked': False}:
+            return a
+        a += 1
