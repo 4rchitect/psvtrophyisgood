@@ -122,7 +122,7 @@ class modTRP:
         self.changeStamp = Button(self.Labelframe3)
         self.changeStamp.place(relx=0.0, rely=0.0, height=26, width=170)
         self.changeStamp.configure(activebackground="#d9d9d9")
-        self.changeStamp.configure(command=psvtrophyisgoodModTRP_support.cngStamp)
+        self.changeStamp.configure(command=lambda: psvtrophyisgoodModTRP_support.cngStamp(npCommId,self.trophySelection.get(ACTIVE)))
         self.changeStamp.configure(text='''Change''')
         self.changeStamp.configure(width=170)
 
@@ -133,10 +133,6 @@ class modTRP:
         self.randomStamp.configure(text='''Random''')
         self.randomStamp.configure(width=170)
 
-        self.Button5 = Button(self.Labelframe3)
-        self.Button5.place(relx=0.67, rely=2.94, height=26, width=107)
-        self.Button5.configure(activebackground="#d9d9d9")
-        self.Button5.configure(text='''Modify Timestamp''')
 
         self.Labelframe4 = LabelFrame(self.Labelframe2)
         self.Labelframe4.place(relx=0.05, rely=0.51, relheight=0.4, relwidth=0.9)

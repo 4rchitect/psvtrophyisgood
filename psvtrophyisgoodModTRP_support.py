@@ -1,7 +1,6 @@
 
 import psvtrophyisgoodSelectSet
-
-import sys
+import psvtrophyisgoodDateTime
 
 try:
     from Tkinter import *
@@ -25,8 +24,14 @@ def cngOwner():
     print('psvtrophyisgoodModTRP_support.cngOwner')
     sys.stdout.flush()
 
-def cngStamp():
-    print('psvtrophyisgoodModTRP_support.cngStamp')
+def cngStamp(npcommid,trophy):
+    a = trophy.index("(")+1
+    trophyid = trophy[a:]
+    b = trophy.index(")")-1
+    trophyid = trophyid[:b]
+    trophyid = int(trophyid)
+    destroy_window()
+    psvtrophyisgoodDateTime.vp_start_gui(npcommid,trophyid)
     sys.stdout.flush()
 
 def lockTrophy():

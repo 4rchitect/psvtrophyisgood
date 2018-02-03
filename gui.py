@@ -25,7 +25,7 @@ if not os.path.exists("trophyDownloaded/conf"):
 window = Tkinter.Tk()
 window.wm_withdraw()
 serverIp = tkSimpleDialog.askstring("FTP Connection","Please enter FTP Mode on your PSVITA, and enter the IP Below:")
-
+window.destroy()
 if serverIp.endswith(":1337"):
     serverIp = serverIp[:-5]
 

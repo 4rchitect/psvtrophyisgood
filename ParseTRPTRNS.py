@@ -2,6 +2,8 @@ import binascii
 
 def init(path):
     global trpData
+    global readPath
+    readPath = path
     trpData = open(path, "rb").read()
 
 def getAccountId():
@@ -34,6 +36,18 @@ def getTrophyDataBlock(v):
     begin = findDataZone(v)["begin"]
     end = findDataZone(v)["end"]
     return binascii.hexlify(trpData[begin:end])
+
+def writeTimestamp(v,timestamp):
+    origTrophyDataBlock = binascii.unhexlify(getTrophyDataBlock(v))
+    ts = parseTrophyDataBlock(v)["timestamp"]
+    trophyDataBlock = origTrophyDataBlock.replace(binascii.unhexlify(ts[0]),binascii.unhexlify(timestamp))
+    trophyDataBlock = trophyDataBlock.replace(binascii.unhexlify(ts[1]),binascii.unhexlify(timestamp))
+    trpData = open(readPath, "rb").read()
+    trpData = trpData.replace(origTrophyDataBlock,trophyDataBlock)
+    open(readPath,"wb").write(trpData)
+
+
+
 
 
 def parseTrophyDataBlock(v):

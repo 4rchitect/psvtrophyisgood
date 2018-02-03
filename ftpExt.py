@@ -23,7 +23,7 @@ def downloadRecursive(ftpHandle):
     numFiles = len(listing["files"])
     a = 0
     while a != numDirs:
-        print "Checking if "+listing["dirs"][a]+" exist?"
+        print "Checking if "+listing["dirs"][a]+" exists?"
         if not os.path.exists(listing["dirs"][a]):
             print "Creating directory: "+ listing["dirs"][a]
             os.mkdir(listing["dirs"][a])
