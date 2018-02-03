@@ -40,13 +40,13 @@ def parseTrophyDataBlock(v):
     trophyDataBlock = getTrophyDataBlock(v)
     trophyType = trophyDataBlock[96:96 + 2]
     if trophyType == "01":
-        trophyType = "Platinum"
+        trophyType = "P"
     elif trophyType == "02":
-        trophyType = "Gold"
+        trophyType = "G"
     elif trophyType == "03":
-        trophyType = "Silver"
+        trophyType = "S"
     elif trophyType == "04":
-        trophyType = "Bronze"
+        trophyType = "B"
     else:
         trophyType = "Unknown"
     unlocked = trophyDataBlock[32:32+2]

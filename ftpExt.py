@@ -30,10 +30,22 @@ def downloadRecursive(ftpHandle):
         a += 1
     a = 0
     while a != numFiles:
-        print "Downloading: " + listing["files"][a]
-        file = open(listing["files"][a], "wb")
-        print ftpHandle.retrbinary("RETR " + listing["files"][a], file.write)
-        file.close()
+        #This is psvtrophyisgood specific code, if you just want a recursive ftp downlaoder
+        #remove this if branch, and make it default to the else.
+        if os.getcwd().__contains__("trophyDownloaded") and os.getcwd().__contains__("conf"):
+            if not listing["files"][a].upper().__contains__(".PNG"):
+                if not os.path.exists(listing["files"][a]):
+                    print "Downloading: " + listing["files"][a]
+                    file = open(listing["files"][a], "wb")
+                    print ftpHandle.retrbinary("RETR " + listing["files"][a], file.write)
+                    file.close()
+                else:
+                    print "Skipping "+listing["files"][a]
+        else:
+            print "Downloading: " + listing["files"][a]
+            file = open(listing["files"][a], "wb")
+            print ftpHandle.retrbinary("RETR " + listing["files"][a], file.write)
+            file.close()
         a += 1
     a = 0
     while a != len(listing["dirs"]):

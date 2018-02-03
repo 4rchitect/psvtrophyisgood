@@ -1,5 +1,5 @@
 
-
+import psvtrophyisgoodSelectSet
 
 import sys
 
@@ -17,7 +17,8 @@ except ImportError:
 
 
 def back():
-    print('psvtrophyisgoodModTRP_support.back')
+    destroy_window()
+    psvtrophyisgoodSelectSet.vp_start_gui()
     sys.stdout.flush()
 
 def cngOwner():

@@ -14,11 +14,9 @@ except ImportError:
     py3 = 1
 
 
-def npCommSign():
-    print('psvtrophyisgoodSelectSet_support.npCommSign')
-    sys.stdout.flush()
-
-def selectSet(npCommId):
+def selectSet(indexTitle):
+    npCommId = indexTitle[indexTitle.index("[")+1:]
+    npCommId = npCommId[:-1]
     print "Decrypting "+npCommId
     PFS.decryptPFS(os.getcwd()+"/data/"+npCommId)
     destroy_window()

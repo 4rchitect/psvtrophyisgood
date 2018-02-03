@@ -1,9 +1,11 @@
-import sys
 
 import os
-
+# import ParseTRPDB Fuck trophy_local.db >_>
+import ParseTRPSFM
 import ParseTRPTRNS
 from Tkinter import *
+
+import VitaTime
 
 try:
     import ttk
@@ -78,12 +80,28 @@ class modTRP:
         self.trophySelection.configure(selectbackground="#c4c4c4")
         self.trophySelection.configure(width=10)
         ParseTRPTRNS.init(os.getcwd()+"/data/"+npCommId+"_decrypted"+"/TRPTRANS.DAT")
-        NumTrophys = ParseTRPTRNS.getNumberOfTrophies()
-        print NumTrophys
+        ParseTRPSFM.init(os.getcwd()+"/conf/"+npCommId+"/TROP.SFM")
         a = 1
-        while a != NumTrophys:
-            print ParseTRPTRNS.parseTrophyDataBlock(1)
-            self.trophySelection.insert(a,)
+        trophyList = ParseTRPSFM.getAllTrophies()
+        while a != len(trophyList):
+            ti = trophyList[a]
+            tp = ParseTRPTRNS.parseTrophyDataBlock(a)
+            isUnlocked = tp["unlocked"]
+            if isUnlocked == True:
+                isUnlocked = "U"
+            else:
+                isUnlocked = "L"
+            if isUnlocked == "U":
+                if tp["timestamp"][0] != "00000000000000":
+                    timestamp = "-"+str(VitaTime.decodeTimestamp(tp["timestamp"][0]))
+                else:
+                    timestamp = " - PSN"
+            else:
+                timestamp = ""
+
+
+            text = "("+str(a)+") "+ti["name"]+"-"+ti["grade"]+"-" + isUnlocked + str(timestamp)
+            self.trophySelection.insert(a,text)
             a += 1
 
 

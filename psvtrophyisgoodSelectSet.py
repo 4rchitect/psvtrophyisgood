@@ -2,8 +2,8 @@
 from Tkinter import *
 
 import os
-
-import PFS
+#import ParseTRPDB Fuck trophy_local.db..
+import ParseTRPSFM
 
 try:
     import ttk
@@ -67,31 +67,27 @@ class psvtrophyisgood:
         self.selectFrame.configure(width=440)
 
         self.trophySetSelector = ScrolledListBox(self.selectFrame)
-        self.trophySetSelector.place(relx=0.02, rely=0.0, relheight=0.9
-                , relwidth=0.96)
+        self.trophySetSelector.place(relx=0.02, rely=0.0, relheight=0.9,relwidth=0.96)
         self.trophySetSelector.configure(background="white")
         self.trophySetSelector.configure(font="TkFixedFont")
         self.trophySetSelector.configure(highlightcolor="#d9d9d9")
         self.trophySetSelector.configure(selectbackground="#c4c4c4")
         self.trophySetSelector.configure(width=440)
         a = 0
-        for file in os.listdir(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data"):
+        for file in os.listdir("data"):
             if not file == "sce_trop" and not file.endswith("_decrypted"):
-                self.trophySetSelector.insert(a,file)
+                ParseTRPSFM.init("conf/"+file+"/TROP.SFM")
+                title = ParseTRPSFM.getSetInfo()["title"].replace("[","(") + " ["+file+"]"
+                self.trophySetSelector.insert(a,title)
             a += 1
 
 
         self.selectSet = Button(self.selectFrame)
-        self.selectSet.place(relx=0.02, rely=0.9, height=26, width=287)
+        self.selectSet.place(relx=0.02, rely=0.9, height=26,width=440)
         self.selectSet.configure(activebackground="#d9d9d9")
         self.selectSet.configure(command=lambda: psvtrophyisgoodSelectSet_support.selectSet(self.trophySetSelector.get(ACTIVE)))
         self.selectSet.configure(text='''Select Trophy Set''')
 
-        self.npComsign = Button(self.selectFrame)
-        self.npComsign.place(relx=0.68, rely=0.9, height=26, width=137)
-        self.npComsign.configure(activebackground="#d9d9d9")
-        self.npComsign.configure(command=psvtrophyisgoodSelectSet_support.npCommSign)
-        self.npComsign.configure(text='''Configure''')
 
 
 
