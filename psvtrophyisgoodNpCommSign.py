@@ -49,7 +49,7 @@ class psvtrophyisgood:
         _ana1color = '#d9d9d9' # X11 color: 'gray85' 
         _ana2color = '#d9d9d9' # X11 color: 'gray85' 
 
-        top.geometry("351x105+388+201")
+        top.geometry("359x105+388+201")
         top.title("psvtrophyisgood")
 
 

@@ -14,6 +14,7 @@ def vp_start_gui(v):
     npCommId = v
     global val, w, root
     root = Tk()
+    root.resizable(0, 0)
     psvtrophyisgoodAidSelect_support.set_Tk_var()
     top = Change_Account (root)
     psvtrophyisgoodAidSelect_support.init(root, top)

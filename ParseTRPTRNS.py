@@ -20,7 +20,7 @@ def getNpCommId():
     return trpData[0x170:0x170 + 0x0C]
 
 def getNpCommSign():
-    return binascii.hexlify(trpData[0x190:0x22f])
+    return binascii.hexlify(trpData[400:560])
 
 def findDataZone(v):
         begin = 0x2B7

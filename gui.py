@@ -23,14 +23,6 @@ if serverIp == None:
 if serverIp.endswith(":1337"):
     serverIp = serverIp[:-5]
 
-
-if os.path.exists("trophyDownloaded/data"):
-    shutil.rmtree("trophyDownloaded/data")
-#if os.path.exists("trophyDownloaded/conf"):
-#    shutil.rmtree("trophyDownloaded/conf")
-#if os.path.exists("trophyDownloaded/db"): Fuck trophy_local.db
-#    shutil.rmtree("trophyDownloaded/db")
-
 if not os.path.exists("trophyDownloaded/db"):
     os.makedirs("trophyDownloaded/db")
 if not os.path.exists("trophyDownloaded/data"):
