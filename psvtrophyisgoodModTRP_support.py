@@ -1,11 +1,8 @@
 
 import psvtrophyisgoodSelectSet
 import psvtrophyisgoodDateTime
-
-try:
-    from Tkinter import *
-except ImportError:
-    from tkinter import *
+import psvtrophyisgoodNpCommSign
+from Tkinter import *
 
 try:
     import ttk
@@ -38,8 +35,8 @@ def lockTrophy():
     print('psvtrophyisgoodModTRP_support.lockTrophy')
     sys.stdout.flush()
 
-def npCommSig():
-    print('psvtrophyisgoodModTRP_support.npCommSig')
+def npCommSig(npCommId):
+    psvtrophyisgoodNpCommSign.vp_start_gui(npCommId)
     sys.stdout.flush()
 
 def rmOwner():

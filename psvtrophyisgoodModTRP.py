@@ -194,7 +194,7 @@ class modTRP:
         self.commSign = Button(self.Labelframe7)
         self.commSign.place(relx=0.0, rely=0.0, height=26, width=170)
         self.commSign.configure(activebackground="#d9d9d9")
-        self.commSign.configure(command=psvtrophyisgoodModTRP_support.npCommSig)
+        self.commSign.configure(command=lambda: psvtrophyisgoodModTRP_support.npCommSig(npCommId))
         self.commSign.configure(text='''Get NpCommSign''')
         self.commSign.configure(width=167)
 

@@ -17,10 +17,10 @@ def getNumberOfUnlockedTrophies():
     return int(str(binascii.hexlify(trpData[0x187:0x187+0x1])),16)
 
 def getNpCommId():
-    return trpData[0x170:0x170 + 0x0C]
+    return trpData[0x170:0x170 + 0xa0]
 
 def getNpCommSign():
-    return binascii.hexlify(trpData[0x190:0x190 + 0xAC])
+    return binascii.hexlify(trpData[0x190:0x22f])
 
 def findDataZone(v):
         begin = 0x2B7

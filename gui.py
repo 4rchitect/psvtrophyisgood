@@ -6,6 +6,23 @@ import os
 import ftpExt
 import psvtrophyisgoodSelectSet
 
+
+
+
+
+window = Tkinter.Tk()
+window.wm_withdraw()
+serverIp = tkSimpleDialog.askstring("FTP Connection","Please enter FTP Mode on your PSVITA, and enter the IP Below:")
+window.destroy()
+
+if serverIp == None:
+    os.chdir("trophyDownloaded")
+    psvtrophyisgoodSelectSet.vp_start_gui()
+    os._exit(0)
+if serverIp.endswith(":1337"):
+    serverIp = serverIp[:-5]
+
+
 if os.path.exists("trophyDownloaded/data"):
     shutil.rmtree("trophyDownloaded/data")
 #if os.path.exists("trophyDownloaded/conf"):
@@ -13,21 +30,12 @@ if os.path.exists("trophyDownloaded/data"):
 #if os.path.exists("trophyDownloaded/db"): Fuck trophy_local.db
 #    shutil.rmtree("trophyDownloaded/db")
 
-
 if not os.path.exists("trophyDownloaded/db"):
     os.makedirs("trophyDownloaded/db")
 if not os.path.exists("trophyDownloaded/data"):
     os.makedirs("trophyDownloaded/data")
 if not os.path.exists("trophyDownloaded/conf"):
     os.makedirs("trophyDownloaded/conf")
-
-
-window = Tkinter.Tk()
-window.wm_withdraw()
-serverIp = tkSimpleDialog.askstring("FTP Connection","Please enter FTP Mode on your PSVITA, and enter the IP Below:")
-window.destroy()
-if serverIp.endswith(":1337"):
-    serverIp = serverIp[:-5]
 
 print "Connecting to: "+serverIp
 ftp = FTP()
