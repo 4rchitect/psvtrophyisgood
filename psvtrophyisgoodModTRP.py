@@ -22,6 +22,7 @@ def vp_start_gui(v):
     npCommId = v
     global val, w, root
     root = Tk()
+    root.resizable(0, 0)
     top = modTRP (root)
     psvtrophyisgoodModTRP_support.init(root, top)
     root.mainloop()
@@ -95,7 +96,7 @@ class modTRP:
                 if tp["timestamp"][0] != "00000000000000":
                     timestamp = "-"+str(VitaTime.decodeTimestamp(tp["timestamp"][0]))
                 else:
-                    timestamp = " - PSN"
+                    timestamp = "-NaN"
             else:
                 timestamp = ""
 
@@ -129,7 +130,7 @@ class modTRP:
         self.randomStamp = Button(self.Labelframe3)
         self.randomStamp.place(relx=0.0, rely=0.47, height=26, width=170)
         self.randomStamp.configure(activebackground="#d9d9d9")
-        self.randomStamp.configure(command=psvtrophyisgoodModTRP_support.rngStamp)
+        self.randomStamp.configure(command=lambda: psvtrophyisgoodModTRP_support.rngStamp(npCommId,self.trophySelection.get(ACTIVE)))
         self.randomStamp.configure(text='''Random''')
         self.randomStamp.configure(width=170)
 
@@ -144,14 +145,14 @@ class modTRP:
         self.unlock = Button(self.Labelframe4)
         self.unlock.place(relx=0.0, rely=0.0, height=26, width=170)
         self.unlock.configure(activebackground="#d9d9d9")
-        self.unlock.configure(command=psvtrophyisgoodModTRP_support.unlockTrophy)
+        self.unlock.configure(command=lambda: psvtrophyisgoodModTRP_support.unlockTrophy(npCommId,self.trophySelection.get(ACTIVE)))
         self.unlock.configure(text='''Unlock''')
         self.unlock.configure(width=170)
 
         self.lock = Button(self.Labelframe4)
         self.lock.place(relx=0.0, rely=0.47, height=26, width=170)
         self.lock.configure(activebackground="#d9d9d9")
-        self.lock.configure(command=psvtrophyisgoodModTRP_support.lockTrophy)
+        self.lock.configure(command=lambda: psvtrophyisgoodModTRP_support.lockTrophy(npCommId,self.trophySelection.get(ACTIVE)))
         self.lock.configure(text='''Lock''')
         self.lock.configure(width=170)
 
@@ -173,14 +174,14 @@ class modTRP:
         self.chgOwner = Button(self.Labelframe6)
         self.chgOwner.place(relx=0.0, rely=0.0, height=26, width=170)
         self.chgOwner.configure(activebackground="#d9d9d9")
-        self.chgOwner.configure(command=psvtrophyisgoodModTRP_support.cngOwner)
+        self.chgOwner.configure(command=lambda: psvtrophyisgoodModTRP_support.cngOwner(npCommId))
         self.chgOwner.configure(text='''Change Owner''')
         self.chgOwner.configure(width=170)
 
         self.rmOwner = Button(self.Labelframe6)
         self.rmOwner.place(relx=0.0, rely=0.47, height=26, width=170)
         self.rmOwner.configure(activebackground="#d9d9d9")
-        self.rmOwner.configure(command=psvtrophyisgoodModTRP_support.rmOwner)
+        self.rmOwner.configure(command=lambda: psvtrophyisgoodModTRP_support.rmOwner(npCommId))
         self.rmOwner.configure(text='''Remove Owner''')
         self.rmOwner.configure(width=167)
 

@@ -18,6 +18,7 @@ def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w, root
     root = Tk()
+    root.resizable(0, 0)
     top = psvtrophyisgood (root)
     psvtrophyisgoodSelectSet_support.init(root, top)
     root.mainloop()

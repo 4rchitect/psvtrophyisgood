@@ -25,6 +25,7 @@ def vp_start_gui(v0,v1):
     '''Starting point when module is the main routine.'''
     global val, w, root
     root = Tk()
+    root.resizable(0, 0)
     psvtrophyisgoodDateTime_support.set_Tk_var()
     top = Change_Timestamp (root)
     psvtrophyisgoodDateTime_support.init(root, top)
