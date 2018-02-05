@@ -18,6 +18,7 @@ def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w, root
     root = Tk()
+    root.protocol("WM_DELETE_WINDOW", lambda: os._exit(0))
     root.resizable(0, 0)
     top = psvtrophyisgood (root)
     psvtrophyisgoodSelectSet_support.init(root, top)
@@ -88,6 +89,8 @@ class psvtrophyisgood:
         self.selectSet.configure(activebackground="#d9d9d9")
         self.selectSet.configure(command=lambda: psvtrophyisgoodSelectSet_support.selectSet(self.trophySetSelector.get(ACTIVE)))
         self.selectSet.configure(text='''Select Trophy Set''')
+
+
 
 
 

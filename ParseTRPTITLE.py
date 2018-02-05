@@ -41,7 +41,3 @@ def zeroOutDataBlock(v):
     open(path,"wb").write(trpTitle)
 
 
-
-init("/home/silicaandpina/psvita/GIT/psvtrophyisgood/trophyDownloaded/data/NPWR09521_00_decrypted/TRPTITLE.DAT")
-print getDataBlock(2)
-print parseDataBlock(1)

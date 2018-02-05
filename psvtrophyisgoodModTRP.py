@@ -23,6 +23,7 @@ def vp_start_gui(v):
     npCommId = v
     global val, w, root
     root = Tk()
+    root.protocol("WM_DELETE_WINDOW", lambda: os._exit(0))
     root.resizable(0, 0)
     top = modTRP (root)
     psvtrophyisgoodModTRP_support.init(root, top)

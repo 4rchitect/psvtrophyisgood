@@ -1,4 +1,7 @@
 from Tkinter import *
+
+import os
+
 import ParseTRPTRNS
 try:
     import ttk
@@ -15,6 +18,7 @@ def vp_start_gui(v):
     global val, w, root
     root = Tk()
     root.resizable(0, 0)
+    root.protocol("WM_DELETE_WINDOW", lambda: os._exit(0))
     psvtrophyisgoodAidSelect_support.set_Tk_var()
     top = Change_Account (root)
     psvtrophyisgoodAidSelect_support.init(root, top)
