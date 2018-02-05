@@ -1,5 +1,6 @@
 import binascii
 import ParseTRPSFM
+import ParseTRPTITLE
 def init(path):
     global trpData
     global readPath
@@ -38,6 +39,9 @@ def getTrophyDataBlock(v):
     return binascii.hexlify(trpData[begin:end])
 
 def writeTimestamp(v,timestamp):
+    ParseTRPTITLE.init("data/"+getNpCommId()+"_decrypted/TRPTITLE.DAT")
+    if ParseTRPTITLE.parseDataBlock(v)["unlocked"]:
+        ParseTRPTITLE.zeroOutDataBlock(v)
     origTrophyDataBlock = binascii.unhexlify(getTrophyDataBlock(v))
     ts = parseTrophyDataBlock(v)["timestamp"]
     trophyDataBlock = origTrophyDataBlock.replace(binascii.unhexlify(ts[0]),binascii.unhexlify(timestamp))
@@ -46,6 +50,7 @@ def writeTimestamp(v,timestamp):
     trpData = trpData.replace(origTrophyDataBlock,trophyDataBlock)
     open(readPath,"wb").write(trpData)
 
+
 def setAccountId(aid):
     origAid = getAccountId()
     trpData = open(readPath, "rb").read()
@@ -53,6 +58,9 @@ def setAccountId(aid):
     open(readPath, "wb").write(trpData)
 
 def unlockTrophy(v):
+    ParseTRPTITLE.init("data/"+getNpCommId()+"_decrypted/TRPTITLE.DAT")
+    if ParseTRPTITLE.parseDataBlock(v)["unlocked"]:
+        ParseTRPTITLE.zeroOutDataBlock(v)
     npCommId = getNpCommId()
     ParseTRPSFM.init("conf/"+npCommId+"/TROP.SFM")
     grade = ParseTRPSFM.parseTrophyData(v)["grade"]
@@ -79,6 +87,9 @@ def unlockTrophy(v):
 
 def lockTrophy(v):
     npCommId = getNpCommId()
+    ParseTRPTITLE.init("data/"+npCommId+"_decrypted/TRPTITLE.DAT")
+    if ParseTRPTITLE.parseDataBlock(v)["unlocked"]:
+        ParseTRPTITLE.zeroOutDataBlock(v)
     idInHex = hex(v)[2:]
     if len(idInHex) != 2:
         idInHex = "0"+idInHex

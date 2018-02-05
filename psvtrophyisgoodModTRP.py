@@ -1,6 +1,7 @@
 
 import os
 # import ParseTRPDB Fuck trophy_local.db >_>
+import ParseTRPTITLE
 import ParseTRPSFM
 import ParseTRPTRNS
 from Tkinter import *
@@ -80,14 +81,19 @@ class modTRP:
         self.trophySelection.configure(highlightcolor="#d9d9d9")
         self.trophySelection.configure(selectbackground="#c4c4c4")
         self.trophySelection.configure(width=10)
-        ParseTRPTRNS.init(os.getcwd()+"/data/"+npCommId+"_decrypted"+"/TRPTRANS.DAT")
+        ParseTRPTRNS.init(os.getcwd()+"/data/"+npCommId+"_decrypted/TRPTRANS.DAT")
         ParseTRPSFM.init(os.getcwd()+"/conf/"+npCommId+"/TROP.SFM")
+        ParseTRPTITLE.init(os.getcwd()+"/data/"+npCommId+"_decrypted/TRPTITLE.DAT")
         a = 1
         trophyList = ParseTRPSFM.getAllTrophies()
         while a != len(trophyList):
             ti = trophyList[a]
             tp = ParseTRPTRNS.parseTrophyDataBlock(a)
-            isUnlocked = tp["unlocked"]
+            tt = ParseTRPTITLE.parseDataBlock(a)
+            if tt["unlocked"] or tp["unlocked"]:
+                isUnlocked = True
+            else:
+                isUnlocked = False
             if isUnlocked == True:
                 isUnlocked = "U"
             else:
@@ -95,6 +101,8 @@ class modTRP:
             if isUnlocked == "U":
                 if tp["timestamp"][0] != "00000000000000":
                     timestamp = "-"+str(VitaTime.decodeTimestamp(tp["timestamp"][0]))
+                elif tt["timestamp"][0] != "00000000000000" and tt["unlocked"]:
+                    timestamp = "-PSN-" + str(VitaTime.decodeTimestamp(tt["timestamp"][0]))
                 else:
                     timestamp = "-NaN"
             else:
