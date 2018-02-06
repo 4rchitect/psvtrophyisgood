@@ -102,8 +102,8 @@ class modTRP:
             if isUnlocked == "U":
                 if tp["timestamp"][0] != "00000000000000":
                     timestamp = "-"+str(VitaTime.decodeTimestamp(tp["timestamp"][0]))
-                elif tt["timestamp"][0] != "00000000000000" and tt["unlocked"]:
-                    timestamp = "-PSN-" + str(VitaTime.decodeTimestamp(tt["timestamp"][0]))
+                elif tt["timestamp"] != "00000000000000" and tt["unlocked"]:
+                    timestamp = "-PSN-" + str(VitaTime.decodeTimestamp(tt["timestamp"]))
                 else:
                     timestamp = "-NaN"
             else:

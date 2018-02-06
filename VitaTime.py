@@ -2,6 +2,8 @@ import datetime
 import random
 
 
+
+
 def decodeTimestamp(timestamp):
     timestamp = int(timestamp,16)
     dt = datetime.datetime.fromordinal(1) + datetime.timedelta(microseconds=timestamp)

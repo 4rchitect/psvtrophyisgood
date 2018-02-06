@@ -56,11 +56,14 @@ def setAccountId(aid):
     trpData = open(readPath, "rb").read()
     trpData = trpData.replace(binascii.unhexlify(origAid),binascii.unhexlify(aid))
     open(readPath, "wb").write(trpData)
+    trpTitle = open("data/" + getNpCommId() + "_decrypted/TRPTITLE.DAT", "rb").read()
+    trpTitle = trpTitle.replace(binascii.unhexlify(origAid),binascii.unhexlify(aid))
+    open("data/" + getNpCommId() + "_decrypted/TRPTITLE.DAT", "wb").write(trpTitle)
 
 def unlockTrophy(v):
     ParseTRPTITLE.init("data/"+getNpCommId()+"_decrypted/TRPTITLE.DAT")
     if ParseTRPTITLE.parseDataBlock(v)["unlocked"]:
-        ParseTRPTITLE.zeroOutDataBlock(v)
+        ParseTRPTITLE.unSyncTrophy(v)
     npCommId = getNpCommId()
     ParseTRPSFM.init("conf/"+npCommId+"/TROP.SFM")
     grade = ParseTRPSFM.parseTrophyData(v)["grade"]
@@ -89,7 +92,7 @@ def lockTrophy(v):
     npCommId = getNpCommId()
     ParseTRPTITLE.init("data/"+npCommId+"_decrypted/TRPTITLE.DAT")
     if ParseTRPTITLE.parseDataBlock(v)["unlocked"]:
-        ParseTRPTITLE.zeroOutDataBlock(v)
+        ParseTRPTITLE.unSyncTrophy(v)
     idInHex = hex(v)[2:]
     if len(idInHex) != 2:
         idInHex = "0"+idInHex

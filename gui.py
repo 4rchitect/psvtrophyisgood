@@ -12,7 +12,6 @@ import ftpExt
 import psvtrophyisgoodSelectSet
 
 
-
 def getIP():
     import Tkinter
     window = Tkinter.Tk()
