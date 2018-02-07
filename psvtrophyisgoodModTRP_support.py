@@ -1,7 +1,7 @@
 import tkMessageBox
 
 import time
-
+import ParseTRPTITLE
 import ParseTRPTRNS
 import VitaTime
 import psvtrophyisgoodAidSelect
@@ -38,7 +38,8 @@ def cngOwner(npCommId):
 def cngStamp(npcommid,trophy):
     trophyid = getTrophyId(trophy)
     ParseTRPTRNS.init("data/"+npcommid+"_decrypted/TRPTRANS.DAT")
-    if ParseTRPTRNS.parseTrophyDataBlock(trophyid)["unlocked"]:
+    ParseTRPTITLE.init("data/"+npcommid+"_decrypted/TRPTITLE.DAT")
+    if ParseTRPTRNS.parseTrophyDataBlock(trophyid)["unlocked"] or ParseTRPTITLE.parseDataBlock(trophyid)["unlocked"]:
         destroy_window()
         psvtrophyisgoodDateTime.vp_start_gui(npcommid,trophyid)
     else:
@@ -66,7 +67,8 @@ def rngStamp(npCommId,trophy):
     trophyId = getTrophyId(trophy)
     timestamp = VitaTime.genRandomTime()
     ParseTRPTRNS.init("data/"+npCommId+"_decrypted/TRPTRANS.DAT")
-    if ParseTRPTRNS.parseTrophyDataBlock(trophyId)["unlocked"]:
+    ParseTRPTITLE.init("data/"+npCommId+"_decrypted/TRPTITLE.DAT")
+    if ParseTRPTRNS.parseTrophyDataBlock(trophyId)["unlocked"] or ParseTRPTITLE.parseDataBlock(trophyId)["unlocked"]:
         #There was some weird bug where invalid timestamps behaved strangly.
         #Simple fix: Make it not invalid then generate stamp
         if int(ParseTRPTRNS.parseTrophyDataBlock(trophyId)["timestamp"][0], 16) < 63082281600000000:

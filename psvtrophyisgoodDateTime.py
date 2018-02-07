@@ -24,8 +24,8 @@ def vp_start_gui(v0,v1):
     timestamp = VitaTime.decodeTimestamp(timestamp)
     '''Starting point when module is the main routine.'''
     global val, w, root
-    root.protocol("WM_DELETE_WINDOW", lambda: os._exit(0))
     root = Tk()
+    root.protocol("WM_DELETE_WINDOW", lambda: os._exit(0))
     root.resizable(0, 0)
     psvtrophyisgoodDateTime_support.set_Tk_var()
     top = Change_Timestamp (root)

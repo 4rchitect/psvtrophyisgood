@@ -41,7 +41,7 @@ def getTrophyDataBlock(v):
 def writeTimestamp(v,timestamp):
     ParseTRPTITLE.init("data/"+getNpCommId()+"_decrypted/TRPTITLE.DAT")
     if ParseTRPTITLE.parseDataBlock(v)["unlocked"]:
-        ParseTRPTITLE.zeroOutDataBlock(v)
+        ParseTRPTITLE.unSyncTrophy(v)
     origTrophyDataBlock = binascii.unhexlify(getTrophyDataBlock(v))
     ts = parseTrophyDataBlock(v)["timestamp"]
     trophyDataBlock = origTrophyDataBlock.replace(binascii.unhexlify(ts[0]),binascii.unhexlify(timestamp))
@@ -66,7 +66,7 @@ def unlockTrophy(v):
         ParseTRPTITLE.unSyncTrophy(v)
     npCommId = getNpCommId()
     ParseTRPSFM.init("conf/"+npCommId+"/TROP.SFM")
-    grade = ParseTRPSFM.parseTrophyData(v)["grade"]
+    grade = ParseTRPSFM.getAllTrophies()[v]["grade"]
     if grade == "P":
         grade = "01"
     elif grade == "G":
