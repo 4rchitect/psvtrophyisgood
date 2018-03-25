@@ -137,33 +137,53 @@ class modTRP:
         self.changeStamp.configure(width=170)
 
         self.randomStamp = Button(self.Labelframe3)
-        self.randomStamp.place(relx=0.0, rely=0.47, height=26, width=170)
+        self.randomStamp.place(relx=0.0, rely=0.47, height=26, width=130)
         self.randomStamp.configure(activebackground="#d9d9d9")
         self.randomStamp.configure(command=lambda: psvtrophyisgoodModTRP_support.rngStamp(npCommId,self.trophySelection.get(ACTIVE)))
         self.randomStamp.configure(text='''Random''')
-        self.randomStamp.configure(width=170)
+        self.randomStamp.configure(width=130)
+
+        self.RandomALL = Button(self.Labelframe3)
+        self.RandomALL.place(relx=0.78, rely=0.47, height=27, width=37)
+        self.RandomALL.configure(activebackground="#d9d9d9")
+        self.RandomALL.configure(command=lambda: psvtrophyisgoodModTRP_support.randomAll(npCommId))
+        self.RandomALL.configure(text='''ALL''')
+        self.RandomALL.configure(width=37)
 
 
         self.Labelframe4 = LabelFrame(self.Labelframe2)
         self.Labelframe4.place(relx=0.05, rely=0.51, relheight=0.4, relwidth=0.9)
-
         self.Labelframe4.configure(relief=GROOVE)
         self.Labelframe4.configure(text='''State''')
         self.Labelframe4.configure(width=180)
 
         self.unlock = Button(self.Labelframe4)
-        self.unlock.place(relx=0.0, rely=0.0, height=26, width=170)
+        self.unlock.place(relx=0.0, rely=0.0, height=26, width=130)
         self.unlock.configure(activebackground="#d9d9d9")
         self.unlock.configure(command=lambda: psvtrophyisgoodModTRP_support.unlockTrophy(npCommId,self.trophySelection.get(ACTIVE)))
         self.unlock.configure(text='''Unlock''')
-        self.unlock.configure(width=170)
+        self.unlock.configure(width=130)
+
+        self.unlockALL = Button(self.Labelframe4)
+        self.unlockALL.place(relx=0.78, rely=0.0, height=27, width=37)
+        self.unlockALL.configure(activebackground="#d9d9d9")
+        self.unlockALL.configure(command=lambda: psvtrophyisgoodModTRP_support.unlockAll(npCommId))
+        self.unlockALL.configure(text='''ALL''')
+        self.unlockALL.configure(width=37)
 
         self.lock = Button(self.Labelframe4)
-        self.lock.place(relx=0.0, rely=0.47, height=26, width=170)
+        self.lock.place(relx=0.0, rely=0.47, height=26, width=130)
         self.lock.configure(activebackground="#d9d9d9")
         self.lock.configure(command=lambda: psvtrophyisgoodModTRP_support.lockTrophy(npCommId,self.trophySelection.get(ACTIVE)))
         self.lock.configure(text='''Lock''')
-        self.lock.configure(width=170)
+        self.lock.configure(width=130)
+
+        self.lockAll = Button(self.Labelframe4)
+        self.lockAll.place(relx=0.78, rely=0.47, height=27, width=37)
+        self.lockAll.configure(activebackground="#d9d9d9")
+        self.lockAll.configure(command=lambda: psvtrophyisgoodModTRP_support.lockALL(npCommId))
+        self.lockAll.configure(text='''ALL''')
+        self.lockAll.configure(width=37)
 
         self.Labelframe5 = LabelFrame(top)
         self.Labelframe5.place(relx=0.67, rely=0.49, relheight=0.41
