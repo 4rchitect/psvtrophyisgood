@@ -14,8 +14,24 @@ def makeCmaAid(aid):
     cmaAid = [aid[i:i + 2] for i in range(0, len(aid), 2)]
     cmaAid.reverse()
     return str(cmaAid)
+
 def getNumberOfUnlockedTrophies():
-    return int(str(binascii.hexlify(trpData[0x187:0x187+0x1])),16)
+    return int(str(binascii.hexlify(trpData[0x187:0x188])),16)
+
+def setNumberOfUnlockedTrophies(unlockedTrophys):
+    if unlockedTrophys > 0xFF & unlockedTrophys < 0x00:
+        return "Too Long!"
+    numToWrite = hex(unlockedTrophys)[2:]
+    if numToWrite.endswith("L"):
+        numToWrite = numToWrite[:-1]
+    if len(numToWrite) == 1:
+        numToWrite = "0" + numToWrite
+    trpData = binascii.hexlify(open(readPath, "rb").read())
+    a = trpData[:782]
+    b = trpData[784:]
+    trpData = a+numToWrite+b
+    open(readPath, "wb").write(binascii.unhexlify(trpData))
+
 
 def getNpCommId():
     return trpData[0x170:0x170 + 0x0C]
@@ -61,6 +77,8 @@ def setAccountId(aid):
     open("data/" + getNpCommId() + "_decrypted/TRPTITLE.DAT", "wb").write(trpTitle)
 
 def unlockTrophy(v):
+    if parseTrophyDataBlock(v)["unlocked"] == True:
+        return 0
     ParseTRPTITLE.init("data/"+getNpCommId()+"_decrypted/TRPTITLE.DAT")
     if ParseTRPTITLE.parseDataBlock(v)["unlocked"]:
         ParseTRPTITLE.unSyncTrophy(v)
@@ -85,10 +103,14 @@ def unlockTrophy(v):
     trpData = open(readPath, "rb").read()
     trpData = trpData.replace(binascii.unhexlify(origTrophyDataBlock),binascii.unhexlify(trophyDataBlock))
     open(readPath,"wb").write(trpData)
+    unlockedTrophys = getNumberOfUnlockedTrophies() + 1
+    setNumberOfUnlockedTrophies(unlockedTrophys)
 
 
 
 def lockTrophy(v):
+    if parseTrophyDataBlock(v)["unlocked"] == False:
+        return 0
     npCommId = getNpCommId()
     ParseTRPTITLE.init("data/"+npCommId+"_decrypted/TRPTITLE.DAT")
     if ParseTRPTITLE.parseDataBlock(v)["unlocked"]:
@@ -100,6 +122,8 @@ def lockTrophy(v):
     trpData = open(readPath, "rb").read()
     trpData = trpData.replace(binascii.unhexlify(getTrophyDataBlock(v)),binascii.unhexlify(trophyDataBlock))
     open(readPath,"wb").write(trpData)
+    unlockedTrophys = getNumberOfUnlockedTrophies() - 1
+    setNumberOfUnlockedTrophies(unlockedTrophys)
 
 
 def parseTrophyDataBlock(v):
