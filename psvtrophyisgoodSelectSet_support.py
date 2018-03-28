@@ -17,8 +17,8 @@ except ImportError:
 def selectSet(indexTitle):
     npCommId = indexTitle[indexTitle.index("[")+1:]
     npCommId = npCommId[:-1]
-    print "Decrypting "+npCommId
-    PFS.decryptPFS(os.getcwd()+"/data/"+npCommId)
+    #print "Decrypting "+npCommId
+    #PFS.decryptPFS(os.getcwd()+"/data/"+npCommId)
     destroy_window()
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 

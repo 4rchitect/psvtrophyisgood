@@ -51,11 +51,12 @@ try:
     ftpExt.downloadRecursive(ftp)
 
     os.chdir(owd+"/trophyDownloaded/data")
-    print ftp.cwd("/ur0:/user/00/trophy/data")
-    print "Downloading ur0:/user/00/trophy/data/*"
+    print ftp.cwd("/ux0:/reSync")
+    print "Downloading /ux0:/reSync/*"
     ftpExt.downloadRecursive(ftp)
     print "Done!"
     global ftpDone
+    os.remove("data/TRPUSER.DAT")
     psvtrophyisgoodSelectSet.vp_start_gui()
 except ftplib.error_perm:
     import Tkinter

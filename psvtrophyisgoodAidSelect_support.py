@@ -25,7 +25,7 @@ def set_Tk_var():
 def apply(npCommId,byte1,byte2,byte3,byte4,byte5,byte6,byte7,byte8):
     destroy_window()
     aid = byte1+byte2+byte3+byte4+byte5+byte6+byte7+byte8
-    ParseTRPTRNS.init("data/"+npCommId+"_decrypted/TRPTRANS.DAT")
+    ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
     ParseTRPTRNS.setAccountId(aid)
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 

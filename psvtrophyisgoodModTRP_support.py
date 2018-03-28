@@ -1,6 +1,5 @@
 import tkMessageBox
 
-import time
 
 import os
 
@@ -41,8 +40,8 @@ def cngOwner(npCommId):
 
 def cngStamp(npcommid,trophy):
     trophyid = getTrophyId(trophy)
-    ParseTRPTRNS.init("data/"+npcommid+"_decrypted/TRPTRANS.DAT")
-    ParseTRPTITLE.init("data/"+npcommid+"_decrypted/TRPTITLE.DAT")
+    ParseTRPTRNS.init("data/"+npcommid+"/TRPTRANS.DAT")
+    ParseTRPTITLE.init("data/"+npcommid+"/TRPTITLE.DAT")
     if ParseTRPTRNS.parseTrophyDataBlock(trophyid)["unlocked"] or ParseTRPTITLE.parseDataBlock(trophyid)["unlocked"]:
         destroy_window()
         psvtrophyisgoodDateTime.vp_start_gui(npcommid,trophyid)
@@ -53,7 +52,7 @@ def cngStamp(npcommid,trophy):
 def lockTrophy(npCommId,trophy):
     destroy_window()
     trophyId = getTrophyId(trophy)
-    ParseTRPTRNS.init("data/" + npCommId + "_decrypted/TRPTRANS.DAT")
+    ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
     ParseTRPTRNS.lockTrophy(trophyId)
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 
@@ -62,7 +61,9 @@ def lockALL(npCommId):
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
     trophyId = 0
     while trophyId != numTrophys+1:
-        ParseTRPTRNS.init("data/" + npCommId + "_decrypted/TRPTRANS.DAT")
+        ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
+        ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
+        ParseTRPTITLE.lockTrophy(trophyId)
         ParseTRPTRNS.lockTrophy(trophyId)
         trophyId += 1
     destroy_window()
@@ -74,17 +75,16 @@ def npCommSig(npCommId):
     sys.stdout.flush()
 
 def rmOwner(npCommId):
-    ParseTRPTRNS.init("data/"+npCommId+"_decrypted/TRPTRANS.DAT")
+    ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
     ParseTRPTRNS.setAccountId("0000000000000000")
     tkMessageBox.showinfo(title="Yep Yep!",message="Done! This trophy set can now be used by anyone!")
     sys.stdout.flush()
 
 def rngStamp(npCommId,trophy):
-    destroy_window()
     trophyId = getTrophyId(trophy)
     timestamp = VitaTime.genRandomTime()
-    ParseTRPTRNS.init("data/"+npCommId+"_decrypted/TRPTRANS.DAT")
-    ParseTRPTITLE.init("data/"+npCommId+"_decrypted/TRPTITLE.DAT")
+    ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
+    ParseTRPTITLE.init("data/"+npCommId+"/TRPTITLE.DAT")
     if ParseTRPTRNS.parseTrophyDataBlock(trophyId)["unlocked"] or ParseTRPTITLE.parseDataBlock(trophyId)["unlocked"]:
         #There was some weird bug where invalid timestamps behaved strangly.
         #Simple fix: Make it not invalid then generate stamp
@@ -97,14 +97,15 @@ def rngStamp(npCommId,trophy):
         ParseTRPTRNS.writeTimestamp(trophyId,timestamp)
     else:
         tkMessageBox.showerror(title="Uhh..",message="You cant set a timestamp for a locked trophy!")
+    destroy_window()
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
     sys.stdout.flush()
 
 def randomAll(npCommId):
     trophyId = 1
     ParseTRPSFM.init(os.getcwd() + "/conf/" + npCommId + "/TROP.SFM")
-    ParseTRPTRNS.init("data/" + npCommId + "_decrypted/TRPTRANS.DAT")
-    ParseTRPTITLE.init("data/" + npCommId + "_decrypted/TRPTITLE.DAT")
+    ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
+    ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
     while trophyId != numTrophys+1:
         if ParseTRPTRNS.parseTrophyDataBlock(trophyId)["unlocked"] or ParseTRPTITLE.parseDataBlock(trophyId)["unlocked"]:
@@ -114,8 +115,8 @@ def randomAll(npCommId):
                         ts = ts[:-1]
                     ParseTRPTRNS.writeTimestamp(trophyId, ts)
                     ParseTRPSFM.init(os.getcwd() + "/conf/" + npCommId + "/TROP.SFM")
-                    ParseTRPTRNS.init("data/" + npCommId + "_decrypted/TRPTRANS.DAT")
-                    ParseTRPTITLE.init("data/" + npCommId + "_decrypted/TRPTITLE.DAT")
+                    ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
+                    ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
                 timestamp = VitaTime.genRandomTime()
                 ParseTRPTRNS.writeTimestamp(trophyId, timestamp)
         else:
@@ -129,7 +130,7 @@ def randomAll(npCommId):
 def unlockTrophy(npCommId,trophy):
     destroy_window()
     trophyId = getTrophyId(trophy)
-    ParseTRPTRNS.init("data/" + npCommId + "_decrypted/TRPTRANS.DAT")
+    ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
     ParseTRPTRNS.unlockTrophy(trophyId)
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 
@@ -138,7 +139,7 @@ def unlockAll(npCommId):
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
     trophyId = 1
     while trophyId != numTrophys+1:
-        ParseTRPTRNS.init("data/" + npCommId + "_decrypted/TRPTRANS.DAT")
+        ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
         ParseTRPTRNS.unlockTrophy(trophyId)
         trophyId += 1
     destroy_window()

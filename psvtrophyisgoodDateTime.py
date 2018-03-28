@@ -19,7 +19,7 @@ def vp_start_gui(v0,v1):
     global npcommid
     trophyid = v1
     npcommid = v0
-    ParseTRPTRNS.init(os.getcwd()+"/data/"+npcommid+"_decrypted/TRPTRANS.DAT")
+    ParseTRPTRNS.init(os.getcwd()+"/data/"+npcommid+"/TRPTRANS.DAT")
     timestamp = ParseTRPTRNS.parseTrophyDataBlock(trophyid)["timestamp"][0]
     timestamp = VitaTime.decodeTimestamp(timestamp)
     '''Starting point when module is the main routine.'''

@@ -82,9 +82,9 @@ class modTRP:
         self.trophySelection.configure(highlightcolor="#d9d9d9")
         self.trophySelection.configure(selectbackground="#c4c4c4")
         self.trophySelection.configure(width=10)
-        ParseTRPTRNS.init(os.getcwd()+"/data/"+npCommId+"_decrypted/TRPTRANS.DAT")
+        ParseTRPTRNS.init(os.getcwd()+"/data/"+npCommId+"/TRPTRANS.DAT")
         ParseTRPSFM.init(os.getcwd()+"/conf/"+npCommId+"/TROP.SFM")
-        ParseTRPTITLE.init(os.getcwd()+"/data/"+npCommId+"_decrypted/TRPTITLE.DAT")
+        ParseTRPTITLE.init(os.getcwd()+"/data/"+npCommId+"/TRPTITLE.DAT")
         a = 1
         trophyList = ParseTRPSFM.getAllTrophies()
         while a != len(trophyList):

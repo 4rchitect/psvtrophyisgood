@@ -77,7 +77,7 @@ class psvtrophyisgood:
         self.trophySetSelector.configure(width=440)
         a = 0
         for file in os.listdir("data"):
-            if not file == "sce_trop" and not file.endswith("_decrypted"):
+            if not file == "sce_trop":
                 ParseTRPSFM.init("conf/"+file+"/TROP.SFM")
                 title = ParseTRPSFM.getSetInfo()["title"].replace("[","(") + " ["+file+"]"
                 self.trophySetSelector.insert(a,title)
