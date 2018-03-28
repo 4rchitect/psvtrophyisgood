@@ -53,6 +53,8 @@ def lockTrophy(npCommId,trophy):
     destroy_window()
     trophyId = getTrophyId(trophy)
     ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
+    ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
+    ParseTRPTITLE.lockTrophy(trophyId)
     ParseTRPTRNS.lockTrophy(trophyId)
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 

@@ -21,7 +21,7 @@ def getNumberOfUnlockedTrophies():
 def setNumberOfUnlockedTrophies(unlockedTrophys):
     if unlockedTrophys > 0xFF & unlockedTrophys < 0x00:
         return "Too Long!"
-    numToWrite = hex(unlockedTrophys)[2:]
+    numToWrite = hex(unlockedTrophys)[3:]
     if numToWrite.endswith("L"):
         numToWrite = numToWrite[:-1]
     if len(numToWrite) == 1:
