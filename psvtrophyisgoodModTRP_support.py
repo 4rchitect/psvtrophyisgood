@@ -94,9 +94,11 @@ def rngStamp(npCommId,trophy):
             ts = hex(int(63082281600000000))[2:]
             if ts.endswith("L"):
                 ts = ts[:-1]
-            ParseTRPTRNS.writeTimestamp(trophyId, ts)
+            ParseTRPTRNS.writeTimestamp(trophyId, timestamp)
+            ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
             rngStamp(npCommId,trophy)
-        ParseTRPTRNS.writeTimestamp(trophyId,timestamp)
+        ParseTRPTRNS.writeTimestamp(trophyId, timestamp)
+        ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
     else:
         tkMessageBox.showerror(title="Uhh..",message="You cant set a timestamp for a locked trophy!")
     destroy_window()
@@ -116,11 +118,13 @@ def randomAll(npCommId):
                     if ts.endswith("L"):
                         ts = ts[:-1]
                     ParseTRPTRNS.writeTimestamp(trophyId, ts)
+                    ParseTRPTITLE.writeTimestamp(trophyId, ts)
                     ParseTRPSFM.init(os.getcwd() + "/conf/" + npCommId + "/TROP.SFM")
                     ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
                     ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
                 timestamp = VitaTime.genRandomTime()
                 ParseTRPTRNS.writeTimestamp(trophyId, timestamp)
+                ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
         else:
             """"""
         trophyId += 1
@@ -133,6 +137,8 @@ def unlockTrophy(npCommId,trophy):
     destroy_window()
     trophyId = getTrophyId(trophy)
     ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
+    ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
+    ParseTRPTITLE.unlockTrophy(trophyId)
     ParseTRPTRNS.unlockTrophy(trophyId)
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 
@@ -142,6 +148,8 @@ def unlockAll(npCommId):
     trophyId = 1
     while trophyId != numTrophys+1:
         ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
+        ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
+        ParseTRPTITLE.unlockTrophy(trophyId)
         ParseTRPTRNS.unlockTrophy(trophyId)
         trophyId += 1
     destroy_window()

@@ -1,6 +1,7 @@
 
 from Tkinter import *
 
+import ParseTRPTITLE
 import ParseTRPTRNS
 import VitaTime
 import psvtrophyisgoodModTRP
@@ -30,7 +31,9 @@ def apply(trophyId,npCommId,year,month,day,hour,minute,second):
     month = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November","December" ].index(month) + 1
     timestamp = VitaTime.encodeTimestamp("{}-{}-{} {}:{}:{}.{}".format(year,month,day,hour,minute,second,0))
     ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
+    ParseTRPTITLE.init("data/"+npCommId+"/TRPTRANS.DAT")
     ParseTRPTRNS.writeTimestamp(trophyId,timestamp)
+    ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
     destroy_window()
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
     sys.stdout.flush()

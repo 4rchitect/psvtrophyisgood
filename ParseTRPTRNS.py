@@ -30,7 +30,6 @@ def setNumberOfUnlockedTrophies(unlockedTrophys):
     a = trpData[:782]
     b = trpData[784:]
     trpData = a+numToWrite+b
-    print numToWrite
     open(readPath, "wb").write(binascii.unhexlify(trpData))
 
 
@@ -115,8 +114,6 @@ def lockTrophy(v):
     trophyDataBlock = b + "00" + a
     a = trophyDataBlock[32+2:]
     b = trophyDataBlock[:32]
-    print origTrophyDataBlock
-    print trophyDataBlock
     trophyDataBlock = b + "00" + a
     trpData = open(readPath, "rb").read()
     trpData = trpData.replace(binascii.unhexlify(origTrophyDataBlock),binascii.unhexlify(trophyDataBlock))
