@@ -96,7 +96,8 @@ def rngStamp(npCommId,trophy):
                 ts = ts[:-1]
             ParseTRPTRNS.writeTimestamp(trophyId, timestamp)
             ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
-            rngStamp(npCommId,trophy)
+            ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
+            ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
         ParseTRPTRNS.writeTimestamp(trophyId, timestamp)
         ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
     else:
