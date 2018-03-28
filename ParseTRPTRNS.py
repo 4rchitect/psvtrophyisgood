@@ -55,23 +55,22 @@ def getTrophyDataBlock(v):
     return binascii.hexlify(trpData[begin:end])
 
 def writeTimestamp(v,timestamp):
-    origTrophyDataBlock = binascii.unhexlify(getTrophyDataBlock(v))
-    ts = parseTrophyDataBlock(v)["timestamp"]
-    trophyDataBlock = origTrophyDataBlock.replace(binascii.unhexlify(ts[0]),binascii.unhexlify(timestamp))
-    trophyDataBlock = trophyDataBlock.replace(binascii.unhexlify(ts[1]),binascii.unhexlify(timestamp))
+    dataBlock = getTrophyDataBlock(v)
+    a = dataBlock[:52]
+    b = dataBlock[82:]
+    newDataBlock = a + timestamp + "00" + timestamp + b
+    dataBlock = binascii.unhexlify(dataBlock)
+    newDataBlock = binascii.unhexlify(newDataBlock)
     trpData = open(readPath, "rb").read()
-    trpData = trpData.replace(origTrophyDataBlock,trophyDataBlock)
-    open(readPath,"wb").write(trpData)
+    trpData = trpData.replace(dataBlock, newDataBlock)
+    open(readPath, "wb").write(trpData)
 
 
 def setAccountId(aid):
-    origAid = getAccountId()
-    trpData = open(readPath, "rb").read()
-    trpData = trpData.replace(binascii.unhexlify(origAid),binascii.unhexlify(aid))
-    open(readPath, "wb").write(trpData)
-    trpTitle = open("data/" + getNpCommId() + "/TRPTITLE.DAT", "rb").read()
-    trpTitle = trpTitle.replace(binascii.unhexlify(origAid),binascii.unhexlify(aid))
-    open("data/" + getNpCommId() + "/TRPTITLE.DAT", "wb").write(trpTitle)
+    a = trpData[:0x120]
+    b = trpData[0x120+0x8:]
+    newTrpData = a + binascii.unhexlify(aid) + b
+    open(readPath, "wb").write(newTrpData)
 
 def unlockTrophy(v):
     if parseTrophyDataBlock(v)["unlocked"] == True:

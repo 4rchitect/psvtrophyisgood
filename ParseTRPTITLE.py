@@ -21,7 +21,11 @@ def getNpCommId():
     npCommId = npCommId[:0x0c]
     return npCommId
 
-
+def setAccountId(aid):
+    a = trpTitle[:0x1E0]
+    b = trpTitle[0x1E0+0x8:]
+    newtrpTitle = a + binascii.unhexlify(aid) + b
+    open(path, "wb").write(newtrpTitle)
 
 def findDataZone(v):
     ParseTRPSFM.init("conf/"+getNpCommId()+"/TROP.SFM")
@@ -44,7 +48,7 @@ def parseDataBlock(v):
     dataBlock = getDataBlock(v)
     unlocked = dataBlock[32:34]
     timestamp = dataBlock[52:66]
-    timestamp2 = dataBlock[68:67+15]
+    timestamp2 = dataBlock[68:82]
     if unlocked == "01":
         unlocked = True
     else:
@@ -53,7 +57,6 @@ def parseDataBlock(v):
 
 def unlockTrophy(v):
     dataBlock = getDataBlock(v)
-    print dataBlock
     a = dataBlock[:32]
     b = dataBlock[34:]
     newDataBlock = a + "01" + b
@@ -65,7 +68,6 @@ def unlockTrophy(v):
 
 def lockTrophy(v):
     dataBlock = getDataBlock(v)
-    print dataBlock
     a = dataBlock[:32]
     b = dataBlock[34:]
     newDataBlock = a + "00" + b
@@ -78,12 +80,12 @@ def lockTrophy(v):
     writeTimestamp(v, "00000000000000")
 
 def writeTimestamp(v,timestamp):
-    init(path)
-    origTrophyDataBlock = binascii.unhexlify(getDataBlock(v))
-    ts = [parseDataBlock(v)["timestamp"],parseDataBlock(v)["timestamp2"]]
-    trophyDataBlock = origTrophyDataBlock.replace(binascii.unhexlify(ts[0]),binascii.unhexlify(timestamp))
-    trophyDataBlock = trophyDataBlock.replace(binascii.unhexlify(ts[1]),binascii.unhexlify(timestamp))
+    dataBlock = getDataBlock(v)
+    a = dataBlock[:52]
+    b = dataBlock[82:]
+    newDataBlock = a + timestamp + "00" + timestamp + b
+    dataBlock = binascii.unhexlify(dataBlock)
+    newDataBlock = binascii.unhexlify(newDataBlock)
     trpTitle = open(path, "rb").read()
-    trpTitle = trpTitle.replace(origTrophyDataBlock,trophyDataBlock)
-    open(path,"wb").write(trpTitle)
-
+    trpTitle = trpTitle.replace(dataBlock, newDataBlock)
+    open(path, "wb").write(trpTitle)

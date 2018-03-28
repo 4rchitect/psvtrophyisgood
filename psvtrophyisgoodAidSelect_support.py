@@ -1,5 +1,7 @@
 from Tkinter import *
 import ttk
+
+import ParseTRPTITLE
 import ParseTRPTRNS
 import psvtrophyisgoodModTRP
 
@@ -26,7 +28,9 @@ def apply(npCommId,byte1,byte2,byte3,byte4,byte5,byte6,byte7,byte8):
     destroy_window()
     aid = byte1+byte2+byte3+byte4+byte5+byte6+byte7+byte8
     ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
+    ParseTRPTITLE.init("data/"+npCommId+"/TRPTITLE.DAT")
     ParseTRPTRNS.setAccountId(aid)
+    ParseTRPTITLE.setAccountId(aid)
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 
 
