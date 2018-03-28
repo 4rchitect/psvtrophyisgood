@@ -2,6 +2,7 @@ from Tkinter import *
 
 import os
 
+import ParseTRPTITLE
 import ParseTRPTRNS
 import VitaTime
 try:
@@ -19,8 +20,19 @@ def vp_start_gui(v0,v1):
     global npcommid
     trophyid = v1
     npcommid = v0
+    print trophyid
     ParseTRPTRNS.init(os.getcwd()+"/data/"+npcommid+"/TRPTRANS.DAT")
+    ParseTRPTITLE.init(os.getcwd() + "/data/" + npcommid + "/TRPTITLE.DAT")
     timestamp = ParseTRPTRNS.parseTrophyDataBlock(trophyid)["timestamp"][0]
+    if int(timestamp,16) < 63082281600000000:
+        timestamp = ParseTRPTRNS.parseTrophyDataBlock(trophyid)["timestamp"][1]
+        if int(timestamp,16) < 63082281600000000:
+            timestamp = ParseTRPTITLE.parseDataBlock(trophyid)["timestamp"]
+            if int(timestamp,16) < 63082281600000000:
+                timestamp = ParseTRPTITLE.parseDataBlock(trophyid)["timestamp2"]
+                if int(timestamp,16) < 63082281600000000:
+                    timestamp = "E01D003A63A000"
+    print timestamp
     timestamp = VitaTime.decodeTimestamp(timestamp)
     '''Starting point when module is the main routine.'''
     global val, w, root

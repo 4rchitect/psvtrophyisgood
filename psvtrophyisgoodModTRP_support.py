@@ -144,6 +144,7 @@ def unlockTrophy(npCommId,trophy):
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 
 def unlockAll(npCommId):
+    print "Unlocking all!!"
     ParseTRPSFM.init(os.getcwd() + "/conf/" + npCommId + "/TROP.SFM")
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
     trophyId = 1
@@ -153,6 +154,7 @@ def unlockAll(npCommId):
         ParseTRPTITLE.unlockTrophy(trophyId)
         ParseTRPTRNS.unlockTrophy(trophyId)
         trophyId += 1
+    print "Done!"
     destroy_window()
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 

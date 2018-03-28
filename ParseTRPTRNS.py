@@ -44,7 +44,7 @@ def findDataZone(v):
         end = begin + 0xAC
         a = 0
         while a != v:
-            begin += 0xAC +0x04
+            begin += 0xb0
             end = begin + 0xAC
             a += 1
         return {"begin":begin,"end":end}
@@ -52,6 +52,10 @@ def findDataZone(v):
 def getTrophyDataBlock(v):
     begin = findDataZone(v)["begin"]
     end = findDataZone(v)["end"]
+    print "Begin: "+str(begin)
+    print "End: " + str(end)
+    print "trophyId: "+str(v)
+    print binascii.hexlify(trpData[begin:end])
     return binascii.hexlify(trpData[begin:end])
 
 def writeTimestamp(v,timestamp):
@@ -89,13 +93,23 @@ def unlockTrophy(v):
         grade = "03"
     elif grade == "B":
         grade = "04"
+    #init(readPath)
     origTrophyDataBlock = getTrophyDataBlock(v)
+    trophyDataBlock = origTrophyDataBlock
+
     a = origTrophyDataBlock[96+2:]
     b = origTrophyDataBlock[:96]
     trophyDataBlock = b + grade + a
     a = trophyDataBlock[32+2:]
     b = trophyDataBlock[:32]
     trophyDataBlock = b + "02" + a
+    a = trophyDataBlock[102+2:]
+    b = trophyDataBlock[:102]
+    trophyDataBlock = b + "20" + a
+
+
+
+
     trpData = open(readPath, "rb").read()
     trpData = trpData.replace(binascii.unhexlify(origTrophyDataBlock),binascii.unhexlify(trophyDataBlock))
     open(readPath,"wb").write(trpData)
@@ -113,6 +127,9 @@ def lockTrophy(v):
     trophyDataBlock = b + "00" + a
     a = trophyDataBlock[32+2:]
     b = trophyDataBlock[:32]
+    trophyDataBlock = b + "00" + a
+    a = trophyDataBlock[103+2:]
+    b = trophyDataBlock[:103]
     trophyDataBlock = b + "00" + a
     trpData = open(readPath, "rb").read()
     trpData = trpData.replace(binascii.unhexlify(origTrophyDataBlock),binascii.unhexlify(trophyDataBlock))
@@ -146,6 +163,6 @@ def parseTrophyDataBlock(v):
     timestamp = [0,0]
     timestamp[0] = trophyDataBlock[116:116+14]
     timestamp[1] = trophyDataBlock[132:132+14]
-
+    #print {"grade":trophyType,"unlocked":unlocked,"timestamp":timestamp}
     return {"grade":trophyType,"unlocked":unlocked,"timestamp":timestamp}
 
