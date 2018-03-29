@@ -52,6 +52,7 @@ def findDataZone(v):
 def getTrophyDataBlock(v):
     begin = findDataZone(v)["begin"]
     end = findDataZone(v)["end"]
+    print binascii.hexlify(trpData[begin:end])
     return binascii.hexlify(trpData[begin:end])
 
 def writeTimestamp(v,timestamp):
@@ -92,7 +93,13 @@ def unlockTrophy(v):
         grade = "03"
     elif grade == "B":
         grade = "04"
-    #init(readPath)
+
+    trophyIdHEX = hex(v)[2:]
+    if trophyIdHEX.endswith("L"):
+        trophyIdHEX = trophyIdHEX[:-1]
+    if len(trophyIdHEX) == 1:
+        trophyIdHEX = "0" + trophyIdHEX
+
     if parseTrophyDataBlock(v)["unlocked"] == True:
         return 0
     a = origTrophyDataBlock[96+2:]
@@ -104,6 +111,9 @@ def unlockTrophy(v):
     a = trophyDataBlock[102+2:]
     b = trophyDataBlock[:102]
     trophyDataBlock = b + "20" + a
+    a = trophyDataBlock[88+2:]
+    b = trophyDataBlock[:88]
+    trophyDataBlock = b + trophyIdHEX + a
 
     trpData = open(readPath, "rb").read()
     trpData = trpData.replace(binascii.unhexlify(origTrophyDataBlock),binascii.unhexlify(trophyDataBlock))
@@ -129,6 +139,9 @@ def lockTrophy(v):
     trophyDataBlock = b + "00" + a
     a = trophyDataBlock[102+2:]
     b = trophyDataBlock[:102]
+    trophyDataBlock = b + "00" + a
+    a = trophyDataBlock[88+2:]
+    b = trophyDataBlock[:88]
     trophyDataBlock = b + "00" + a
     trpData = open(readPath, "rb").read()
     trpData = trpData.replace(binascii.unhexlify(origTrophyDataBlock),binascii.unhexlify(trophyDataBlock))
