@@ -56,7 +56,7 @@ try:
     ftpExt.downloadRecursive(ftp)
     print "Done!"
     global ftpDone
-    os.remove("data/TRPUSER.DAT")
+    #os.remove("data/TRPUSER.DAT")
     psvtrophyisgoodSelectSet.vp_start_gui()
 except ftplib.error_perm:
     import Tkinter
