@@ -29,7 +29,6 @@ def setAccountId(aid):
 def findDataZone(v):
     global begin
     trpTitle = open(path,"rb").read()
-    print v
     begin = re.compile("\x50..........................................................................................\x08").search(trpTitle).start()
     end = begin + 0x5c
     a = 0

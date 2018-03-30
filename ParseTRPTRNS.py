@@ -52,34 +52,18 @@ def findDataZone(v):
 def getTrophyDataBlock(v):
     begin = findDataZone(v)["begin"]
     end = findDataZone(v)["end"]
-    #print binascii.hexlify(trpData[begin:end])
     return binascii.hexlify(trpData[begin:end])
 
 def findDataBlockForTrophy(trophyId):
-    a = 1
-    while a != getNumberOfUnlockedTrophies():
+    a = 0
+    ParseTRPSFM.init("conf/"+getNpCommId()+"/TROP.SFM")
+    numTrophys = ParseTRPSFM.getNumberOfTrophies()
+    while a != numTrophys:
         if parseTrophyDataBlock(a)["trophyId"] == trophyId:
             return a
         a += 1
     return -1
 
-def markAllTrophysForSyncing():
-    a = 0
-    while a != getNumberOfUnlockedTrophies():
-        dataBlockId = findDataBlockForTrophy(a)
-        if dataBlockId > -1:
-            origTrophyDataBlock = getTrophyDataBlock(dataBlockId)
-            a = origTrophyDataBlock[102 + 2:]
-            b = origTrophyDataBlock[:102]
-            trophyDataBlock = b + "20" + a
-            trpData = open(readPath, "rb").read()
-            trpData = trpData.replace(binascii.unhexlify(origTrophyDataBlock),binascii.unhexlify(trophyDataBlock))
-            open(readPath,"wb").write(trpData)
-            init(readPath)
-            return 0
-        else:
-            """"""
-        a += 1
 
 def writeTimestamp(v,timestamp):
     dataBlock = getTrophyDataBlock(v)
@@ -94,7 +78,7 @@ def writeTimestamp(v,timestamp):
 
 def findFreeTrophyDataBlock():
     a = 1
-    while a <= 256:
+    while a != 0xFF:
         if parseTrophyDataBlock(a)["unlocked"] == False:
             break
         a += 1
@@ -109,12 +93,15 @@ def setAccountId(aid):
 
 def unlockTrophy(v):
     isUnlocked = findDataBlockForTrophy(v)
-    dataBlockId = findFreeTrophyDataBlock()
+    if isUnlocked == -1:
+        dataBlockId = findFreeTrophyDataBlock()
+    else:
+        dataBlockId = findDataBlockForTrophy(v)
+    print "DataBlockId: "+str(dataBlockId)
     origTrophyDataBlock = getTrophyDataBlock(dataBlockId)
     npCommId = getNpCommId()
 
     ParseTRPSFM.init("conf/"+npCommId+"/TROP.SFM")
-
     grade = ParseTRPSFM.getAllTrophies()[v]["grade"]
     if grade == "P":
         grade = "01"
