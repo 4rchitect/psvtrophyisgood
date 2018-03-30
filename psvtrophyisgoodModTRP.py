@@ -85,11 +85,16 @@ class modTRP:
         ParseTRPTRNS.init(os.getcwd()+"/data/"+npCommId+"/TRPTRANS.DAT")
         ParseTRPSFM.init(os.getcwd()+"/conf/"+npCommId+"/TROP.SFM")
         ParseTRPTITLE.init(os.getcwd()+"/data/"+npCommId+"/TRPTITLE.DAT")
-        a = 1
+        a = 0
         trophyList = ParseTRPSFM.getAllTrophies()
-        while a != len(trophyList):
+        numTrophys = ParseTRPSFM.getNumberOfTrophies()
+        while a != numTrophys:
             ti = trophyList[a]
-            tp = ParseTRPTRNS.parseTrophyDataBlock(a)
+            if ParseTRPTRNS.findDataBlockForTrophy(a) == -1:
+                tp = {"unlocked":False,"timestamp":["00000000000000","00000000000000"]}
+            else:
+                tp = ParseTRPTRNS.parseTrophyDataBlock(ParseTRPTRNS.findDataBlockForTrophy(a))
+
             tt = ParseTRPTITLE.parseDataBlock(a)
             if tt["unlocked"] or tp["unlocked"]:
                 isUnlocked = True
@@ -100,9 +105,9 @@ class modTRP:
             else:
                 isUnlocked = "L"
             if isUnlocked == "U":
-                if tp["timestamp"][0] != "00000000000000":
+                if int(tp["timestamp"][0],16) >= 63082281600000000:
                     timestamp = "-"+str(VitaTime.decodeTimestamp(tp["timestamp"][0]))
-                elif tt["timestamp"] != "00000000000000" and tt["unlocked"]:
+                elif int(tt["timestamp"],16) >= 63082281600000000 and tt["unlocked"]:
                     timestamp = "-" + str(VitaTime.decodeTimestamp(tt["timestamp"]))
                 else:
                     timestamp = "-NaN"
@@ -113,7 +118,6 @@ class modTRP:
             text = "("+str(a)+") "+ti["name"]+"-"+ti["grade"]+"-" + isUnlocked + str(timestamp)
             self.trophySelection.insert(a,text)
             a += 1
-
 
         self.Labelframe2 = LabelFrame(top)
         self.Labelframe2.place(relx=0.67, rely=0.0, relheight=0.48

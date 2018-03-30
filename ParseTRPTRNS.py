@@ -40,7 +40,7 @@ def getNpCommSign():
     return binascii.hexlify(trpData[400:560])
 
 def findDataZone(v):
-        begin = 0x2B7
+        begin = 0x367
         end = begin + 0xAC
         a = 0
         while a != v:
@@ -52,8 +52,16 @@ def findDataZone(v):
 def getTrophyDataBlock(v):
     begin = findDataZone(v)["begin"]
     end = findDataZone(v)["end"]
-    print binascii.hexlify(trpData[begin:end])
+    #print binascii.hexlify(trpData[begin:end])
     return binascii.hexlify(trpData[begin:end])
+
+def findDataBlockForTrophy(trophyId):
+    a = 1
+    while a != getNumberOfUnlockedTrophies():
+        if parseTrophyDataBlock(a)["trophyId"] == trophyId:
+            return a
+        a += 1
+    return -1
 
 def writeTimestamp(v,timestamp):
     dataBlock = getTrophyDataBlock(v)
@@ -70,6 +78,14 @@ def writeTimestamp(v,timestamp):
     trpData = trpData.replace(dataBlock, newDataBlock)
     open(readPath, "wb").write(trpData)
 
+def findFreeTrophyDataBlock():
+    print "I have been called!"
+    a = 1
+    while True:
+        if parseTrophyDataBlock(a)["unlocked"] == False:
+            break
+        a += 1
+    return a
 
 def setAccountId(aid):
     a = trpData[:0x120]
@@ -78,12 +94,16 @@ def setAccountId(aid):
     open(readPath, "wb").write(newTrpData)
 
 def unlockTrophy(v):
-    origTrophyDataBlock = getTrophyDataBlock(v)
-    ParseTRPTITLE.init("data/"+getNpCommId()+"/TRPTITLE.DAT")
-    if ParseTRPTITLE.parseDataBlock(v)["unlocked"] == False:
-        ParseTRPTITLE.unlockTrophy(v)
+    if findDataBlockForTrophy(v) >= 0:
+        return 0
+
+    dataBlockId = findFreeTrophyDataBlock()
+    origTrophyDataBlock = getTrophyDataBlock(dataBlockId)
+    print origTrophyDataBlock
     npCommId = getNpCommId()
+
     ParseTRPSFM.init("conf/"+npCommId+"/TROP.SFM")
+
     grade = ParseTRPSFM.getAllTrophies()[v]["grade"]
     if grade == "P":
         grade = "01"
@@ -100,8 +120,7 @@ def unlockTrophy(v):
     if len(trophyIdHEX) == 1:
         trophyIdHEX = "0" + trophyIdHEX
 
-    if parseTrophyDataBlock(v)["unlocked"] == True:
-        return 0
+
     a = origTrophyDataBlock[96+2:]
     b = origTrophyDataBlock[:96]
     trophyDataBlock = b + grade + a
@@ -119,18 +138,24 @@ def unlockTrophy(v):
     trpData = trpData.replace(binascii.unhexlify(origTrophyDataBlock),binascii.unhexlify(trophyDataBlock))
     open(readPath,"wb").write(trpData)
     init(readPath)
+    writeTimestamp(dataBlockId, "00000000000000")
+    init(readPath)
     unlockedTrophys = getNumberOfUnlockedTrophies() + 1
     setNumberOfUnlockedTrophies(unlockedTrophys)
+    ParseTRPTITLE.init("data/"+getNpCommId()+"/TRPTITLE.DAT")
+    if ParseTRPTITLE.parseDataBlock(v)["unlocked"] == False:
+        ParseTRPTITLE.unlockTrophy(v)
 
 
 
 def lockTrophy(v):
-    if parseTrophyDataBlock(v)["unlocked"] == False:
+    dataBlockId = findDataBlockForTrophy(v)
+    if dataBlockId == -1:
         return 0
     ParseTRPTITLE.init("data/"+getNpCommId()+"/TRPTITLE.DAT")
     if ParseTRPTITLE.parseDataBlock(v)["unlocked"] == True:
         ParseTRPTITLE.lockTrophy(v)
-    origTrophyDataBlock = getTrophyDataBlock(v)
+    origTrophyDataBlock = getTrophyDataBlock(dataBlockId)
     a = origTrophyDataBlock[96+2:]
     b = origTrophyDataBlock[:96]
     trophyDataBlock = b + "00" + a
@@ -143,11 +168,12 @@ def lockTrophy(v):
     a = trophyDataBlock[88+2:]
     b = trophyDataBlock[:88]
     trophyDataBlock = b + "00" + a
+
     trpData = open(readPath, "rb").read()
     trpData = trpData.replace(binascii.unhexlify(origTrophyDataBlock),binascii.unhexlify(trophyDataBlock))
     open(readPath,"wb").write(trpData)
     init(readPath)
-    writeTimestamp(v,"00000000000000")
+    writeTimestamp(dataBlockId,"00000000000000")
     unlockedTrophys = getNumberOfUnlockedTrophies() - 1
     setNumberOfUnlockedTrophies(unlockedTrophys)
 
@@ -175,6 +201,6 @@ def parseTrophyDataBlock(v):
     timestamp = [0,0]
     timestamp[0] = trophyDataBlock[116:116+14]
     timestamp[1] = trophyDataBlock[132:132+14]
-    #print {"grade":trophyType,"unlocked":unlocked,"timestamp":timestamp}
-    return {"grade":trophyType,"unlocked":unlocked,"timestamp":timestamp}
+    trophyId = int(trophyDataBlock[88:88+2],16)
+    return {"grade":trophyType,"unlocked":unlocked,"timestamp":timestamp,"trophyId":trophyId}
 

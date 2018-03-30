@@ -62,7 +62,7 @@ def lockALL(npCommId):
     ParseTRPSFM.init(os.getcwd() + "/conf/" + npCommId + "/TROP.SFM")
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
     trophyId = 0
-    while trophyId != numTrophys+1:
+    while trophyId != numTrophys:
         ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
         ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
         ParseTRPTITLE.lockTrophy(trophyId)
@@ -94,11 +94,11 @@ def rngStamp(npCommId,trophy):
             ts = hex(int(63082281600000000))[2:]
             if ts.endswith("L"):
                 ts = ts[:-1]
-            ParseTRPTRNS.writeTimestamp(trophyId, timestamp)
+            ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(trophyId), timestamp)
             ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
             ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
             ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
-        ParseTRPTRNS.writeTimestamp(trophyId, timestamp)
+        ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(trophyId), timestamp)
         ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
     else:
         tkMessageBox.showerror(title="Uhh..",message="You cant set a timestamp for a locked trophy!")
@@ -107,24 +107,24 @@ def rngStamp(npCommId,trophy):
     sys.stdout.flush()
 
 def randomAll(npCommId):
-    trophyId = 1
+    trophyId = 0
     ParseTRPSFM.init(os.getcwd() + "/conf/" + npCommId + "/TROP.SFM")
     ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
     ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
-    while trophyId != numTrophys+1:
+    while trophyId != numTrophys:
         if ParseTRPTRNS.parseTrophyDataBlock(trophyId)["unlocked"] or ParseTRPTITLE.parseDataBlock(trophyId)["unlocked"]:
                 if int(ParseTRPTRNS.parseTrophyDataBlock(trophyId)["timestamp"][0], 16) < 63082281600000000:
                     ts = hex(int(63082281600000000))[2:]
                     if ts.endswith("L"):
                         ts = ts[:-1]
-                    ParseTRPTRNS.writeTimestamp(trophyId, ts)
+                    ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(trophyId), ts)
                     ParseTRPTITLE.writeTimestamp(trophyId, ts)
                     ParseTRPSFM.init(os.getcwd() + "/conf/" + npCommId + "/TROP.SFM")
                     ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
                     ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
                 timestamp = VitaTime.genRandomTime()
-                ParseTRPTRNS.writeTimestamp(trophyId, timestamp)
+                ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(trophyId), timestamp)
                 ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
         else:
             """"""
@@ -147,8 +147,8 @@ def unlockAll(npCommId):
     print "Unlocking all!!"
     ParseTRPSFM.init(os.getcwd() + "/conf/" + npCommId + "/TROP.SFM")
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
-    trophyId = 1
-    while trophyId != numTrophys+1:
+    trophyId = 0
+    while trophyId != numTrophys:
         ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
         ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
         ParseTRPTITLE.unlockTrophy(trophyId)

@@ -1,4 +1,4 @@
-
+"""
 
 import ftplib
 import tkMessageBox
@@ -76,5 +76,14 @@ except:
     window.wm_withdraw()
     type, value, traceback = sys.exc_info()
     tkMessageBox.showerror(title="Uhh ERROR",message="There was an error.. type: "+str(type)+" value: "+str(value)+" traceback "+str(traceback))
-
+"""
+import os
+try:
+    os.makedirs(os.getcwd()+"/trophyDownloaded/data")
+    os.makedirs(os.getcwd()+"/trophyDownloaded/conf")
+except:
+    ""
+os.chdir(os.getcwd()+"/trophyDownloaded")
+import psvtrophyisgoodSelectSet
+psvtrophyisgoodSelectSet.vp_start_gui()
 

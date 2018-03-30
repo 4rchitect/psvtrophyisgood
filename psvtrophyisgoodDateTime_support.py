@@ -32,7 +32,7 @@ def apply(trophyId,npCommId,year,month,day,hour,minute,second):
     timestamp = VitaTime.encodeTimestamp("{}-{}-{} {}:{}:{}.{}".format(year,month,day,hour,minute,second,0))
     ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
     ParseTRPTITLE.init("data/"+npCommId+"/TRPTITLE.DAT")
-    ParseTRPTRNS.writeTimestamp(trophyId,timestamp)
+    ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(trophyId),timestamp)
     ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
     destroy_window()
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)

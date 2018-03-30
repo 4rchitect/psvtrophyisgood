@@ -61,7 +61,6 @@ def parseTrophyData(v):
 
     return {"hidden":isHidden,"grade":grade,"name":name,"desc":desc}
 
-
 def getAllTrophies():
     a = 0
     numTrophys = getNumberOfTrophies()
@@ -71,7 +70,7 @@ def getAllTrophies():
         a += 1
 
     trophys.append("")
-    trophys.reverse()
+    #trophys.reverse()
     return trophys
 
 def getNumberOfTrophies():
@@ -83,3 +82,9 @@ def getNumberOfTrophies():
         except:
             break
     return a
+
+def isThereAPlatTrophy():
+    a = 0
+    while a != getNumberOfTrophies():
+        if parseTrophyData(a)["grade"] == "P":
+            return True

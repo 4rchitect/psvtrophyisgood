@@ -29,13 +29,8 @@ def setAccountId(aid):
 
 def findDataZone(v):
     global begin
-    ParseTRPSFM.init("conf/"+getNpCommId()+"/TROP.SFM")
-    b = ParseTRPSFM.getNumberOfTrophies()
-    if v != 0:
-        v = b - v
-    else:
-        v = b - 1
     trpTitle = open(path,"rb").read()
+    print v
     begin = re.compile("\x50..........................................................................................\x08").search(trpTitle).start()
     end = begin + 0x5c
     a = 0
