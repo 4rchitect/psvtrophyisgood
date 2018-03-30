@@ -113,7 +113,8 @@ def randomAll(npCommId):
     ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
     while trophyId != numTrophys:
-        if ParseTRPTRNS.parseTrophyDataBlock(trophyId)["unlocked"] or ParseTRPTITLE.parseDataBlock(trophyId)["unlocked"]:
+        if ParseTRPTITLE.parseDataBlock(trophyId)["unlocked"]:
+            if ParseTRPTRNS.findDataBlockForTrophy(trophyId) > -1:
                 if int(ParseTRPTRNS.parseTrophyDataBlock(trophyId)["timestamp"][0], 16) < 63082281600000000:
                     ts = hex(int(63082281600000000))[2:]
                     if ts.endswith("L"):
@@ -127,7 +128,8 @@ def randomAll(npCommId):
                 ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(trophyId), timestamp)
                 ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
         else:
-            """"""
+            ParseTRPTRNS.unlockTrophy(trophyId)
+            trophyId -= 1
         trophyId += 1
     destroy_window()
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
