@@ -83,11 +83,13 @@ class modTRP:
         self.trophySelection.configure(selectbackground="#c4c4c4")
         self.trophySelection.configure(width=10)
         ParseTRPTRNS.init(os.getcwd()+"/data/"+npCommId+"/TRPTRANS.DAT")
+        #ParseTRPTRNS.markAllTrophysForSyncing()
         ParseTRPSFM.init(os.getcwd()+"/conf/"+npCommId+"/TROP.SFM")
         ParseTRPTITLE.init(os.getcwd()+"/data/"+npCommId+"/TRPTITLE.DAT")
         a = 0
         trophyList = ParseTRPSFM.getAllTrophies()
         numTrophys = ParseTRPSFM.getNumberOfTrophies()
+
         while a != numTrophys:
             ti = trophyList[a]
             if ParseTRPTRNS.findDataBlockForTrophy(a) == -1:

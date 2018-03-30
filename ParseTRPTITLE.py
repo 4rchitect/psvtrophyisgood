@@ -1,5 +1,4 @@
 import binascii
-import ParseTRPSFM
 import re
 
 
@@ -59,6 +58,9 @@ def unlockTrophy(v):
     a = dataBlock[:32]
     b = dataBlock[34:]
     newDataBlock = a + "01" + b
+    a = newDataBlock[:38]
+    b = newDataBlock[40:]
+    newDataBlock = a + "20" + b
     dataBlock = binascii.unhexlify(dataBlock)
     newDataBlock = binascii.unhexlify(newDataBlock)
     trpTitle = open(path,"rb").read()
@@ -69,6 +71,9 @@ def lockTrophy(v):
     dataBlock = getDataBlock(v)
     a = dataBlock[:32]
     b = dataBlock[34:]
+    newDataBlock = a + "00" + b
+    a = newDataBlock[:38]
+    b = newDataBlock[40:]
     newDataBlock = a + "00" + b
     dataBlock = binascii.unhexlify(dataBlock)
     newDataBlock = binascii.unhexlify(newDataBlock)
@@ -83,6 +88,9 @@ def writeTimestamp(v,timestamp):
     a = dataBlock[:52]
     b = dataBlock[82:]
     newDataBlock = a + timestamp + "00" + timestamp + b
+    a = newDataBlock[:38]
+    b = newDataBlock[40:]
+    newDataBlock = a + "20" + b
     dataBlock = binascii.unhexlify(dataBlock)
     newDataBlock = binascii.unhexlify(newDataBlock)
     trpTitle = open(path, "rb").read()

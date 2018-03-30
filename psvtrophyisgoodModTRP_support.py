@@ -42,7 +42,7 @@ def cngStamp(npcommid,trophy):
     trophyid = getTrophyId(trophy)
     ParseTRPTRNS.init("data/"+npcommid+"/TRPTRANS.DAT")
     ParseTRPTITLE.init("data/"+npcommid+"/TRPTITLE.DAT")
-    if ParseTRPTRNS.parseTrophyDataBlock(trophyid)["unlocked"] or ParseTRPTITLE.parseDataBlock(trophyid)["unlocked"]:
+    if ParseTRPTRNS.findDataBlockForTrophy(trophyid) != -1 or ParseTRPTITLE.parseDataBlock(trophyid)["unlocked"]:
         destroy_window()
         psvtrophyisgoodDateTime.vp_start_gui(npcommid,trophyid)
     else:
@@ -87,7 +87,7 @@ def rngStamp(npCommId,trophy):
     timestamp = VitaTime.genRandomTime()
     ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
     ParseTRPTITLE.init("data/"+npCommId+"/TRPTITLE.DAT")
-    if ParseTRPTRNS.parseTrophyDataBlock(trophyId)["unlocked"] or ParseTRPTITLE.parseDataBlock(trophyId)["unlocked"]:
+    if ParseTRPTRNS.findDataBlockForTrophy(trophyId) != -1 or ParseTRPTITLE.parseDataBlock(trophyId)["unlocked"]:
         #There was some weird bug where invalid timestamps behaved strangly.
         #Simple fix: Make it not invalid then generate stamp
         if int(ParseTRPTRNS.parseTrophyDataBlock(trophyId)["timestamp"][0], 16) < 63082281600000000:
@@ -129,7 +129,7 @@ def randomAll(npCommId):
                 ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
         else:
             ParseTRPTRNS.unlockTrophy(trophyId)
-            trophyId -= 1
+            continue
         trophyId += 1
     destroy_window()
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
