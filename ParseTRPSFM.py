@@ -16,6 +16,14 @@ def getSetInfo():
     setDesc = setDesc[:b]
     return {"title":setName,"desc":setDesc}
 
+def getNpCommid():
+    a = sfmData.index("<npcommid>")+len("<npcommid>")
+    npComm = sfmData[a:]
+    b = npComm.index("</npcommid>")
+    npComm = npComm[:b]
+    return npComm
+
+
 
 def getSfmSignature():
     a = sfmData.index("<!--Sce-Np-Trophy-Signature: ")+len("<!--Sce-Np-Trophy-Signature: ")

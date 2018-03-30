@@ -77,18 +77,37 @@ class psvtrophyisgood:
         self.trophySetSelector.configure(width=440)
         a = 0
         for file in os.listdir("data"):
-            if not file == "sce_trop":
-                ParseTRPSFM.init("conf/"+file+"/TROP.SFM")
-                title = ParseTRPSFM.getSetInfo()["title"].replace("[","(") + " ["+file+"]"
-                self.trophySetSelector.insert(a,title)
+            if file != "sce_trop":
+                if not os.path.isfile(file):
+                    if not file.startswith("."):
+                        ParseTRPSFM.init("conf/"+file+"/TROP.SFM")
+                        title = ParseTRPSFM.getSetInfo()["title"].replace("[","(") + " ["+file+"]"
+                        self.trophySetSelector.insert(a,title)
             a += 1
 
 
         self.selectSet = Button(self.selectFrame)
-        self.selectSet.place(relx=0.02, rely=0.9, height=26,width=440)
+        self.selectSet.place(relx=0.02, rely=0.9, height=26, width=187)
         self.selectSet.configure(activebackground="#d9d9d9")
         self.selectSet.configure(command=lambda: psvtrophyisgoodSelectSet_support.selectSet(self.trophySetSelector.get(ACTIVE)))
         self.selectSet.configure(text='''Select Trophy Set''')
+
+        self.importSet = Button(self.selectFrame)
+        self.importSet.place(relx=0.7, rely=0.9, height=26, width=117)
+        self.importSet.configure(activebackground="#d9d9d9")
+        self.importSet.configure(command=psvtrophyisgoodSelectSet_support.importSet)
+        self.importSet.configure(text='''Import Set''')
+        self.importSet.configure(width=117)
+
+        self.exportSet = Button(self.selectFrame)
+        self.exportSet.place(relx=0.45, rely=0.9, height=26, width=107)
+        self.exportSet.configure(activebackground="#d9d9d9")
+        self.exportSet.configure(command=lambda: psvtrophyisgoodSelectSet_support.exportSet(self.trophySetSelector.get(ACTIVE)))
+        self.exportSet.configure(text='''Export Set''')
+        self.exportSet.configure(width=107)
+
+
+
 
 
 
