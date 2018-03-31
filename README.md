@@ -38,3 +38,6 @@ and thanks to the following beta testers:
 frosty, wosley, shadow, levi, Justin, and LaughTracks aka In_Her_Own_Words (found tons of bugs for me to fix :D)
 
 Please no commercial use / trophy service. unless its a free trophy service thanks.
+
+
+Want to donate to me? really? ok: https://goo.gl/dvHkEh
