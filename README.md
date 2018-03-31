@@ -31,11 +31,10 @@ open the app again it should say restoring, the progress of the set will NOT be 
 let it sync and it will update to the correct progress,  
 
 # Credits
-Massive thanks to JustinTrophyGod, for helping me find the majority of bugs during developlment (so I can fix them!)  
-Massive thanks to @motoharu @theFlow and @dots_tb for trophy decryption/encryption  
+Massive thanks to LaughTracks aka In_Her_Own_Words (found tons of bugs for me to fix :D)
+Massive thanks to @motoharu @theFlow and @dots-tb for trophy decryption/encryption  
 Thanks to AnalogMan for helping me with timezones.  
 and thanks to the following beta testers:
-frosty, wosley, shadow, levi, Justin, and joslin (aka JustinTrophyGod)  
-
+frosty, wosley, shadow, levi, Justin, and LaughTracks aka In_Her_Own_Words (found tons of bugs for me to fix :D)
 
 Please no commercial use / trophy service. unless its a free trophy service thanks.
