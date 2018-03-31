@@ -29,3 +29,13 @@ your folders are now encrypted again so the vita will read them!
 if the trophy app doesnt update, delete ur0:user/00/trophy/data/sce_trop and ur0:user/00/trophy/db  
 open the app again it should say restoring, the progress of the set will NOT be correct, do not worry  
 let it sync and it will update to the correct progress,  
+
+# Credits
+Massive thanks to JustinTrophyGod, for helping me find the majority of bugs during developlment (so I can fix them!)  
+Massive thanks to @motoharu @theFlow and @dots_tb for trophy decryption/encryption  
+Thanks to AnalogMan for helping me with timezones.  
+and thanks to the following beta testers:
+frosty, wosley, shadow, levi, Justin, and joslin (aka JustinTrophyGod)  
+
+
+No commercial use / trophy service use. unless its a free trophy service thanks :D 
