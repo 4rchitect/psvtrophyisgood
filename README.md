@@ -32,7 +32,7 @@ let it sync and it will update to the correct progress,
 
 # Credits
 Massive thanks to LaughTracks aka In_Her_Own_Words (found tons of bugs for me to fix :D)
-Massive thanks to @motoharu @theFlow and @dots-tb for trophy decryption/encryption  
+Massive thanks to @motoharu @TheOfficialFloW and @dots-tb for trophy decryption/encryption  
 Thanks to AnalogMan for helping me with timezones.  
 and thanks to the following beta testers:
 frosty, wosley, shadow, levi, Justin, and LaughTracks aka In_Her_Own_Words (found tons of bugs for me to fix :D)
