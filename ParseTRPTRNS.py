@@ -146,9 +146,9 @@ def unlockTrophy(v):
     trpData = trpData.replace(binascii.unhexlify(origTrophyDataBlock),binascii.unhexlify(trophyDataBlock))
     open(readPath,"wb").write(trpData)
     init(readPath)
-    writeTimestamp(dataBlockId, "00000000000000")
-    init(readPath)
     if isUnlocked != -1:
+        writeTimestamp(dataBlockId, "00000000000000")
+        init(readPath)
         unlockedTrophys = getNumberOfUnlockedTrophies() + 1
         setNumberOfUnlockedTrophies(unlockedTrophys)
     ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+getNpCommId()+"/TRPTITLE.DAT")
