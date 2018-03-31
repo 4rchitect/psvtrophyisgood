@@ -33,8 +33,8 @@ def exportSet(indexTitle):
     npCommId = npCommId[:-1]
     exportFolder = tkFileDialog.askdirectory(title="Export to:")
     try:
-        shutil.copytree("data/" + npCommId, exportFolder + "/data/" + npCommId)
-        shutil.copytree("conf/" + npCommId, exportFolder + "/conf/"+npCommId)
+        shutil.copytree(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId, exportFolder + "/data/" + npCommId)
+        shutil.copytree(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/" + npCommId, exportFolder + "/conf/"+npCommId)
         tkMessageBox.showinfo(title="Done!", message="Exported trophy set " + npCommId + " to " + exportFolder)
     except:
         type, value, traceback = sys.exc_info()
