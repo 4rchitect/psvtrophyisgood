@@ -80,6 +80,8 @@ def npCommSig(npCommId):
 def rmOwner(npCommId):
     ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTRANS.DAT")
     ParseTRPTRNS.setAccountId("0000000000000000")
+    ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTITLE.DAT")
+    ParseTRPTITLE.setAccountId("0000000000000000")
     tkMessageBox.showinfo(title="Yep Yep!",message="Done! This trophy set can now be used by anyone!")
     sys.stdout.flush()
 

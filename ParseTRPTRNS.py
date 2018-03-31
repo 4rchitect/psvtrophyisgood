@@ -91,6 +91,14 @@ def setAccountId(aid):
     a = trpData[:0x120]
     b = trpData[0x120+0x8:]
     newTrpData = a + binascii.unhexlify(aid) + b
+    if aid == "0000000000000000":
+        a = newTrpData[:0x18b]
+        b = newTrpData[0x18c:]
+        newTrpData = a + "\x00" + b
+    else:
+        a = newTrpData[:0x18b]
+        b = newTrpData[0x18c:]
+        newTrpData = a + "\x01" + b
     open(readPath, "wb").write(newTrpData)
 
 
