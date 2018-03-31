@@ -82,10 +82,10 @@ class modTRP:
         self.trophySelection.configure(highlightcolor="#d9d9d9")
         self.trophySelection.configure(selectbackground="#c4c4c4")
         self.trophySelection.configure(width=10)
-        ParseTRPTRNS.init(os.getcwd()+"/data/"+npCommId+"/TRPTRANS.DAT")
+        ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTRANS.DAT")
         #ParseTRPTRNS.markAllTrophysForSyncing()
-        ParseTRPSFM.init(os.getcwd()+"/conf/"+npCommId+"/TROP.SFM")
-        ParseTRPTITLE.init(os.getcwd()+"/data/"+npCommId+"/TRPTITLE.DAT")
+        ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/"+npCommId+"/TROP.SFM")
+        ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTITLE.DAT")
         a = 0
         trophyList = ParseTRPSFM.getAllTrophies()
         numTrophys = ParseTRPSFM.getNumberOfTrophies()

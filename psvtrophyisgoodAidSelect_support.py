@@ -1,6 +1,8 @@
 from Tkinter import *
 import ttk
 
+import os
+
 import ParseTRPTITLE
 import ParseTRPTRNS
 import psvtrophyisgoodModTRP
@@ -27,8 +29,8 @@ def set_Tk_var():
 def apply(npCommId,byte1,byte2,byte3,byte4,byte5,byte6,byte7,byte8):
     destroy_window()
     aid = byte1+byte2+byte3+byte4+byte5+byte6+byte7+byte8
-    ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
-    ParseTRPTITLE.init("data/"+npCommId+"/TRPTITLE.DAT")
+    ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTRANS.DAT")
+    ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTITLE.DAT")
     ParseTRPTRNS.setAccountId(aid)
     ParseTRPTITLE.setAccountId(aid)
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)

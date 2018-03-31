@@ -48,13 +48,13 @@ def importSet():
         try:
             ParseTRPSFM.init(confPath+"/TROP.SFM")
             npCommId = ParseTRPSFM.getNpCommid()
-            shutil.copytree(confPath,"conf/"+npCommId)
+            shutil.copytree(confPath,os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/"+npCommId)
             dataPath = tkFileDialog.askdirectory(title="DATA FOLDER")
             if os.path.exists(dataPath + "/TRPTRANS.DAT"):
                 if os.path.exists(dataPath + "/TRPTITLE.DAT"):
                     if open(dataPath + "/TRPTRANS.DAT","rb").read().startswith("\x3E\x31\x8F\xBA"):
                         if open(dataPath + "/TRPTITLE.DAT","rb").read().startswith("\x17\xE6\x9B\x72"):
-                            shutil.copytree(dataPath, "data/" + npCommId)
+                            shutil.copytree(dataPath, os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId)
                         else:
                             tkMessageBox.showerror(title="Fail!", message="Invalid TRPTITLE.\nPlease make sure you only import decrypted data/ folders.")
                     else:

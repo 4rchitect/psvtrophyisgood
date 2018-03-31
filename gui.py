@@ -79,11 +79,10 @@ except:
 """
 import os
 try:
-    os.makedirs(os.getcwd()+"/trophyDownloaded/data")
-    os.makedirs(os.getcwd()+"/trophyDownloaded/conf")
+    os.makedirs((os.path.dirname(os.path.realpath(__file__)))+"/trophyDownloaded/data")
+    os.makedirs((os.path.dirname(os.path.realpath(__file__)))+"/trophyDownloaded/conf")
 except:
-    ""
-os.chdir(os.getcwd()+"/trophyDownloaded")
+    pass
 import psvtrophyisgoodSelectSet
 psvtrophyisgoodSelectSet.vp_start_gui()
 

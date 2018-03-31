@@ -76,11 +76,11 @@ class psvtrophyisgood:
         self.trophySetSelector.configure(selectbackground="#c4c4c4")
         self.trophySetSelector.configure(width=440)
         a = 0
-        for file in os.listdir("data"):
+        for file in os.listdir(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data"):
             if file != "sce_trop":
                 if not os.path.isfile(file):
                     if not file.startswith("."):
-                        ParseTRPSFM.init("conf/"+file+"/TROP.SFM")
+                        ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/"+file+"/TROP.SFM")
                         title = ParseTRPSFM.getSetInfo()["title"].replace("[","(") + " ["+file+"]"
                         self.trophySetSelector.insert(a,title)
             a += 1

@@ -1,3 +1,4 @@
+import os
 
 import ParseTRPTRNS
 
@@ -61,7 +62,7 @@ class psvtrophyisgood:
         self.npComSign.configure(selectbackground="#c4c4c4")
         self.npComSign.configure(width=460)
         self.npComSign.configure(wrap=WORD)
-        ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
+        ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTRANS.DAT")
         self.npComSign.insert(END,ParseTRPTRNS.getNpCommSign())
 
 

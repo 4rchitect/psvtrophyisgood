@@ -1,4 +1,7 @@
 import binascii
+
+import os
+
 import ParseTRPSFM
 import ParseTRPTITLE
 def init(path):
@@ -56,7 +59,7 @@ def getTrophyDataBlock(v):
 
 def findDataBlockForTrophy(trophyId):
     a = 0
-    ParseTRPSFM.init("conf/"+getNpCommId()+"/TROP.SFM")
+    ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/"+getNpCommId()+"/TROP.SFM")
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
     while a != numTrophys:
         if parseTrophyDataBlock(a)["trophyId"] == trophyId:
@@ -97,11 +100,10 @@ def unlockTrophy(v):
         dataBlockId = findFreeTrophyDataBlock()
     else:
         dataBlockId = findDataBlockForTrophy(v)
-    print "DataBlockId: "+str(dataBlockId)
     origTrophyDataBlock = getTrophyDataBlock(dataBlockId)
     npCommId = getNpCommId()
 
-    ParseTRPSFM.init("conf/"+npCommId+"/TROP.SFM")
+    ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/"+npCommId+"/TROP.SFM")
     grade = ParseTRPSFM.getAllTrophies()[v]["grade"]
     if grade == "P":
         grade = "01"
@@ -141,7 +143,7 @@ def unlockTrophy(v):
     if isUnlocked != -1:
         unlockedTrophys = getNumberOfUnlockedTrophies() + 1
         setNumberOfUnlockedTrophies(unlockedTrophys)
-    ParseTRPTITLE.init("data/"+getNpCommId()+"/TRPTITLE.DAT")
+    ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+getNpCommId()+"/TRPTITLE.DAT")
     ParseTRPTITLE.unlockTrophy(v)
 
 
@@ -170,7 +172,7 @@ def lockTrophy(v):
     if dataBlockId == -1:
         unlockedTrophys = getNumberOfUnlockedTrophies() - 1
         setNumberOfUnlockedTrophies(unlockedTrophys)
-    ParseTRPTITLE.init("data/" + getNpCommId() + "/TRPTITLE.DAT")
+    ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + getNpCommId() + "/TRPTITLE.DAT")
     ParseTRPTITLE.lockTrophy(v)
 
 

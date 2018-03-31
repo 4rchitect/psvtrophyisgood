@@ -73,7 +73,7 @@ class Change_Account:
         self.Label2.configure(text='''CMA AID:''')
         self.Label2.configure(width=59)
         
-        ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
+        ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTRANS.DAT")
         aid = ParseTRPTRNS.getAccountId()
         cmaaid = ParseTRPTRNS.makeCmaAid(aid)
         

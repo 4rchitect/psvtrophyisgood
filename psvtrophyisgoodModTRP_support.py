@@ -40,8 +40,8 @@ def cngOwner(npCommId):
 
 def cngStamp(npcommid,trophy):
     trophyid = getTrophyId(trophy)
-    ParseTRPTRNS.init("data/"+npcommid+"/TRPTRANS.DAT")
-    ParseTRPTITLE.init("data/"+npcommid+"/TRPTITLE.DAT")
+    ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npcommid+"/TRPTRANS.DAT")
+    ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npcommid+"/TRPTITLE.DAT")
     if ParseTRPTRNS.findDataBlockForTrophy(trophyid) != -1 or ParseTRPTITLE.parseDataBlock(trophyid)["unlocked"]:
         destroy_window()
         psvtrophyisgoodDateTime.vp_start_gui(npcommid,trophyid)
@@ -52,19 +52,19 @@ def cngStamp(npcommid,trophy):
 def lockTrophy(npCommId,trophy):
     destroy_window()
     trophyId = getTrophyId(trophy)
-    ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
-    ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
+    ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+    ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
     ParseTRPTITLE.lockTrophy(trophyId)
     ParseTRPTRNS.lockTrophy(trophyId)
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 
 def lockALL(npCommId):
-    ParseTRPSFM.init(os.getcwd() + "/conf/" + npCommId + "/TROP.SFM")
+    ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/" + npCommId + "/TROP.SFM")
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
     trophyId = 0
     while trophyId != numTrophys:
-        ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
-        ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
+        ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+        ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
         ParseTRPTITLE.lockTrophy(trophyId)
         if ParseTRPTRNS.findDataBlockForTrophy(trophyId) != -1:
             ParseTRPTRNS.lockTrophy(trophyId)
@@ -78,7 +78,7 @@ def npCommSig(npCommId):
     sys.stdout.flush()
 
 def rmOwner(npCommId):
-    ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
+    ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTRANS.DAT")
     ParseTRPTRNS.setAccountId("0000000000000000")
     tkMessageBox.showinfo(title="Yep Yep!",message="Done! This trophy set can now be used by anyone!")
     sys.stdout.flush()
@@ -86,16 +86,16 @@ def rmOwner(npCommId):
 def rngStamp(npCommId,trophy):
     trophyId = getTrophyId(trophy)
     timestamp = VitaTime.genRandomTime()
-    ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
-    ParseTRPTITLE.init("data/"+npCommId+"/TRPTITLE.DAT")
+    ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTRANS.DAT")
+    ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTITLE.DAT")
     if ParseTRPTITLE.parseDataBlock(trophyId)["unlocked"]:
         if ParseTRPTRNS.findDataBlockForTrophy(trophyId) == -1:
             ParseTRPTRNS.unlockTrophy(trophyId)
             ParseTRPTITLE.unlockTrophy(trophyId)
-            ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
-            ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
-        ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
-        ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
+            ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+            ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
+        ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+        ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
         ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(trophyId), timestamp)
         ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
     else:
@@ -106,19 +106,19 @@ def rngStamp(npCommId,trophy):
 
 def randomAll(npCommId):
     trophyId = 0
-    ParseTRPSFM.init(os.getcwd() + "/conf/" + npCommId + "/TROP.SFM")
-    ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
-    ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
+    ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/" + npCommId + "/TROP.SFM")
+    ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+    ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
     while trophyId != numTrophys:
         if ParseTRPTITLE.parseDataBlock(trophyId)["unlocked"]:
             if ParseTRPTRNS.findDataBlockForTrophy(trophyId) == -1:
                 ParseTRPTRNS.unlockTrophy(trophyId)
                 ParseTRPTITLE.unlockTrophy(trophyId)
-                ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
-                ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
-            ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
-            ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
+                ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+                ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
+            ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+            ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
             timestamp = VitaTime.genRandomTime()
             ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(trophyId), timestamp)
             ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
@@ -131,19 +131,19 @@ def randomAll(npCommId):
 def unlockTrophy(npCommId,trophy):
     destroy_window()
     trophyId = getTrophyId(trophy)
-    ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
-    ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
+    ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+    ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
     ParseTRPTITLE.unlockTrophy(trophyId)
     ParseTRPTRNS.unlockTrophy(trophyId)
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 
 def unlockAll(npCommId):
-    ParseTRPSFM.init(os.getcwd() + "/conf/" + npCommId + "/TROP.SFM")
+    ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/" + npCommId + "/TROP.SFM")
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
     trophyId = 0
     while trophyId != numTrophys:
-        ParseTRPTRNS.init("data/" + npCommId + "/TRPTRANS.DAT")
-        ParseTRPTITLE.init("data/" + npCommId + "/TRPTITLE.DAT")
+        ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+        ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
         ParseTRPTITLE.unlockTrophy(trophyId)
         ParseTRPTRNS.unlockTrophy(trophyId)
         trophyId += 1

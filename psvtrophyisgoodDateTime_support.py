@@ -1,5 +1,7 @@
-
+import tkMessageBox
 from Tkinter import *
+
+import os
 
 import ParseTRPTITLE
 import ParseTRPTRNS
@@ -29,9 +31,12 @@ def set_Tk_var():
 
 def apply(trophyId,npCommId,year,month,day,hour,minute,second):
     month = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November","December" ].index(month) + 1
-    timestamp = VitaTime.encodeTimestamp("{}-{}-{} {}:{}:{}.{}".format(year,month,day,hour,minute,second,0))
-    ParseTRPTRNS.init("data/"+npCommId+"/TRPTRANS.DAT")
-    ParseTRPTITLE.init("data/"+npCommId+"/TRPTITLE.DAT")
+    try:
+        timestamp = VitaTime.encodeTimestamp("{}-{}-{} {}:{}:{}.{}".format(year,month,day,hour,minute,second,0))
+    except:
+        tkMessageBox.showerror(title="THAT MAKES NO SENSE!",message="You entered an impossible time.")
+    ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTRANS.DAT")
+    ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTITLE.DAT")
     ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(trophyId),timestamp)
     ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
     destroy_window()

@@ -52,5 +52,3 @@ def getTrophysInSet(npCommId):
 
     trophys.reverse()
     return trophys
-
-init("trophyDownloaded/db/trophy_local.db")
