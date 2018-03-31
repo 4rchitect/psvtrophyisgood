@@ -38,4 +38,4 @@ and thanks to the following beta testers:
 frosty, wosley, shadow, levi, Justin, and joslin (aka JustinTrophyGod)  
 
 
-No commercial use / trophy service use. unless its a free trophy service thanks :D 
+Please no commercial use / trophy service. unless its a free trophy service thanks.
