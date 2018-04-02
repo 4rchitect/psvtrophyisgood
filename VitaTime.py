@@ -2,6 +2,9 @@ import datetime
 import random
 import time
 
+import psvtrophyisgoodRandomTime
+
+
 def utc_to_local(dt):
     if time.localtime().tm_isdst:
         return dt - datetime.timedelta(seconds = time.altzone)
@@ -32,11 +35,14 @@ def encodeTimestamp(dateandtime):
     return timestamp
 
 
-def genRandomTime():
-    max = int(encodeTimestamp(str(datetime.datetime.now())),16)
-    min = 63082281600000000
-    timestamp = random.randrange(min,max)
-    timestamp = hex(int(timestamp))[2:]
+def genRandomTime(min,max):
+    min = int(min,16)
+    max = int(max,16)
+    timestamp = random.randrange(min,max,1)
+    timestamp = hex(int(timestamp))
+    if timestamp.startswith("0x"):
+        timestamp = timestamp[2:]
     if timestamp.endswith("L"):
         timestamp = timestamp[:-1]
+    print timestamp
     return timestamp

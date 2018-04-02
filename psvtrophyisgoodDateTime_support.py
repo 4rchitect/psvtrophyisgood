@@ -39,9 +39,16 @@ def apply(trophyId,npCommId,year,month,day,hour,minute,second):
     ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTITLE.DAT")
     ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(trophyId),timestamp)
     ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
+
+    global lastTime
+    lastTime = timestamp
+
     destroy_window()
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
     sys.stdout.flush()
+
+def getLastTime():
+    return lastTime
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root

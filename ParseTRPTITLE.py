@@ -46,13 +46,13 @@ def getProgress():
 
 def increaseProgress(trophy_id):
     progress = getProgress()
-    progress |= 1 << trophy_id
+    progress |= (1 << trophy_id)
     return progress
 
 
 def decreaseProgress(trophy_id):
     progress = getProgress()
-    progress &= 79228162514264337593543950335L ^ 1 << trophy_id
+    progress &= 0xFFFFFFFFFFFFFFFFFFFFFFFF ^ (1 << trophy_id)
     return progress
 
 
@@ -106,9 +106,7 @@ def parseDataBlock(v):
         unlocked = True
     else:
         unlocked = False
-    return {'unlocked': unlocked,
-     'timestamp': timestamp,
-     'timestamp2': timestamp2}
+    return {'unlocked': unlocked,'timestamp': timestamp,'timestamp2': timestamp2}
 
 
 def unlockTrophy(v):
@@ -133,6 +131,7 @@ def lockTrophy(v):
     dataBlock = getDataBlock(v)
     if parseDataBlock(v)['unlocked']:
         setProgress(decreaseProgress(v))
+        init(path)
     a = dataBlock[:32]
     b = dataBlock[34:]
     newDataBlock = a + '00' + b

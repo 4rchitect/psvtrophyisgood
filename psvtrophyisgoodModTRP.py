@@ -83,7 +83,6 @@ class modTRP:
         self.trophySelection.configure(selectbackground="#c4c4c4")
         self.trophySelection.configure(width=10)
         ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTRANS.DAT")
-        #ParseTRPTRNS.markAllTrophysForSyncing()
         ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/"+npCommId+"/TROP.SFM")
         ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTITLE.DAT")
         a = 0
@@ -107,9 +106,9 @@ class modTRP:
             else:
                 isUnlocked = "L"
             if isUnlocked == "U":
-                if int(tp["timestamp"][0],16) >= 63082281600000000:
+                if int(tp["timestamp"][0],16) >= 63082280000000000:
                     timestamp = "-"+str(VitaTime.decodeTimestamp(tp["timestamp"][0]))
-                elif int(tt["timestamp"],16) >= 63082281600000000 and tt["unlocked"]:
+                elif int(tt["timestamp"],16) >= 63082280000000000 and tt["unlocked"]:
                     timestamp = "-" + str(VitaTime.decodeTimestamp(tt["timestamp"]))
                 else:
                     timestamp = "-NaN"

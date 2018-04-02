@@ -8,6 +8,8 @@ import ParseTRPTITLE
 import ParseTRPTRNS
 import VitaTime
 import psvtrophyisgoodAidSelect
+import psvtrophyisgoodRandomTime
+import psvtrophyisgoodRandomTime_support
 import psvtrophyisgoodSelectSet
 import psvtrophyisgoodDateTime
 import psvtrophyisgoodModTRP
@@ -49,6 +51,9 @@ def cngStamp(npcommid,trophy):
         tkMessageBox.showerror(title="Uhh..",message="You cant set a timestamp for a locked trophy!")
 
 
+
+
+
 def lockTrophy(npCommId,trophy):
     destroy_window()
     trophyId = getTrophyId(trophy)
@@ -86,8 +91,13 @@ def rmOwner(npCommId):
     sys.stdout.flush()
 
 def rngStamp(npCommId,trophy):
+    destroy_window()
     trophyId = getTrophyId(trophy)
-    timestamp = VitaTime.genRandomTime()
+
+    psvtrophyisgoodRandomTime.vp_start_gui()
+    timestamps = psvtrophyisgoodRandomTime_support.getTimestamps()
+    timestamp = VitaTime.genRandomTime(timestamps[0],timestamps[1])
+
     ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTRANS.DAT")
     ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npCommId+"/TRPTITLE.DAT")
     if ParseTRPTITLE.parseDataBlock(trophyId)["unlocked"]:
@@ -102,16 +112,18 @@ def rngStamp(npCommId,trophy):
         ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
     else:
         tkMessageBox.showerror(title="Uhh..",message="You cant set a timestamp for a locked trophy!")
-    destroy_window()
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
     sys.stdout.flush()
 
 def randomAll(npCommId):
+    destroy_window()
     trophyId = 0
     ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/" + npCommId + "/TROP.SFM")
     ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
     ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
     numTrophys = ParseTRPSFM.getNumberOfTrophies()
+    psvtrophyisgoodRandomTime.vp_start_gui()
+    timestamps = psvtrophyisgoodRandomTime_support.getTimestamps()
     while trophyId != numTrophys:
         if ParseTRPTITLE.parseDataBlock(trophyId)["unlocked"]:
             if ParseTRPTRNS.findDataBlockForTrophy(trophyId) == -1:
@@ -121,11 +133,10 @@ def randomAll(npCommId):
                 ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
             ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
             ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
-            timestamp = VitaTime.genRandomTime()
+            timestamp = VitaTime.genRandomTime(timestamps[0], timestamps[1])
             ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(trophyId), timestamp)
             ParseTRPTITLE.writeTimestamp(trophyId, timestamp)
         trophyId += 1
-    destroy_window()
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 
 
