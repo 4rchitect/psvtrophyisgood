@@ -1,10 +1,6 @@
 import binascii
 import re
 
-import os
-
-import ParseTRPSFM
-
 def init(v):
     global trpTitle
     global path
@@ -33,24 +29,12 @@ def setAccountId(aid):
     open(path, 'wb').write(newtrpTitle)
 
 
-def getProgress(groupId=None):
+def getProgress():
     trpTitle = open(path, 'rb').read()
-    ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/"+getNpCommId()+"/TROP.SFM")
-    if ParseTRPSFM.setHasGroups() == False or groupId == "main":
-        begin = findDataZone(0)['begin']
-        begin -= 295
-        end = begin + 16
-    elif ParseTRPSFM.setHasGroups() and groupId == None:
-        begin = findDataZone(0)['begin']
-        begin -= 295 + 0x70
-        end = begin + 16
-    else:
-        begin = findDataZone(0)['begin']
-        begin -= 295 +(0x70 * (groupId + 2))
-        end = begin + 16
-
+    begin = findDataZone(0)['begin']
+    begin -= 295
+    end = begin + 16
     progress = trpTitle[begin:end]
-
     list = []
     list += progress
     list.reverse()
@@ -60,19 +44,19 @@ def getProgress(groupId=None):
     return progress
 
 
-def increaseProgress(trophy_id,groupId=None):
-    progress = getProgress(groupId)
+def increaseProgress(trophy_id):
+    progress = getProgress()
     progress |= (1 << trophy_id)
     return progress
 
 
-def decreaseProgress(trophy_id,groupId=None):
-    progress = getProgress(groupId)
+def decreaseProgress(trophy_id):
+    progress = getProgress()
     progress &= 0xFFFFFFFFFFFFFFFFFFFFFFFF ^ (1 << trophy_id)
     return progress
 
 
-def setProgress(progress,groupId=None):
+def setProgress(progress):
     progressHex = hex(progress)[2:]
     if progressHex.endswith('L'):
         progressHex = progressHex[:-1]
@@ -84,36 +68,14 @@ def setProgress(progress,groupId=None):
     list += progressHex
     list.reverse()
     progressHex = ''.join(list)
-
     trpTitle = open(path, 'rb').read()
-    ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/"+getNpCommId()+"/TROP.SFM")
-    if ParseTRPSFM.setHasGroups() == False or groupId == "main":
-        print "setting main."
-        begin = findDataZone(0)['begin']
-        begin -= 295
-        end = begin + 16
-        a = trpTitle[:begin]
-        b = trpTitle[end:]
-        trpTitle = a + progressHex + b
-        open(path, 'wb').write(trpTitle)
-    elif ParseTRPSFM.setHasGroups() and groupId == None:
-        print "setting none."
-        begin = findDataZone(0)['begin']
-        begin -= 295 + 0x70
-        end = begin + 16
-        a = trpTitle[:begin]
-        b = trpTitle[end:]
-        trpTitle = a + progressHex + b
-        open(path, 'wb').write(trpTitle)
-    else:
-        print "setting id:"+str(groupId)
-        begin = findDataZone(0)['begin']
-        begin -= 295 +(0x70 * (groupId + 2))
-        end = begin + 16
-        a = trpTitle[:begin]
-        b = trpTitle[end:]
-        trpTitle = a + progressHex + b
-        open(path, 'wb').write(trpTitle)
+    begin = findDataZone(0)['begin']
+    begin -= 295
+    end = begin + 16
+    a = trpTitle[:begin]
+    b = trpTitle[end:]
+    trpTitle = a + progressHex + b
+    open(path, 'wb').write(trpTitle)
 
 
 def findDataZone(v):
@@ -147,12 +109,8 @@ def parseDataBlock(v):
 
 
 def unlockTrophy(v):
-    ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/conf/" + getNpCommId() + "/TROP.SFM")
-    trophyGroup = ParseTRPSFM.parseTrophyData(v)["groupId"]
     if not parseDataBlock(v)['unlocked']:
-        if ParseTRPSFM.setHasGroups():
-            setProgress(increaseProgress(v,trophyGroup),trophyGroup)
-        setProgress(increaseProgress(v, "main"), "main")
+        setProgress(increaseProgress(v))
         init(path)
     dataBlock = getDataBlock(v)
     a = dataBlock[:32]
@@ -170,12 +128,8 @@ def unlockTrophy(v):
 
 def lockTrophy(v):
     dataBlock = getDataBlock(v)
-    ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/conf/" + getNpCommId() + "/TROP.SFM")
-    trophyGroup = ParseTRPSFM.parseTrophyData(v)["groupId"]
-    if not parseDataBlock(v)['unlocked']:
-        if ParseTRPSFM.setHasGroups():
-            setProgress(decreaseProgress(v,trophyGroup),trophyGroup)
-        setProgress(decreaseProgress(v, "main"), "main")
+    if parseDataBlock(v)['unlocked']:
+        setProgress(decreaseProgress(v))
         init(path)
     a = dataBlock[:32]
     b = dataBlock[34:]

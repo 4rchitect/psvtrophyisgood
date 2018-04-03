@@ -39,7 +39,7 @@ def genRandomTime(min,max):
     min = int(min,16)
     max = int(max,16)
     timestamp = random.randrange(min,max,1)
-    timestamp = hex(int(timestamp))
+    timestamp = hex(timestamp)
     if timestamp.startswith("0x"):
         timestamp = timestamp[2:]
     if timestamp.endswith("L"):
