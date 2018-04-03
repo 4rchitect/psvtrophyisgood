@@ -67,7 +67,27 @@ def parseTrophyData(v):
     b = desc.index('</detail>')
     desc = desc[:b]
 
-    return {"hidden":isHidden,"grade":grade,"name":name,"desc":desc}
+    if setHasGroups():
+        try:
+            a = trpData.index('gid="')+len('gid="')
+            groupId = trpData[a:]
+            b = groupId.index('"')
+            groupId = groupId[:b]
+            groupId = int(groupId)
+        except:
+            groupId = None
+    else:
+        groupId = None
+
+    return {"hidden":isHidden,"grade":grade,"name":name,"desc":desc,"groupId":groupId}
+
+
+def setHasGroups():
+    try:
+        sfmData.index('gid=')
+        return True
+    except:
+        return False
 
 def getAllTrophies():
     a = 0

@@ -3,6 +3,8 @@ from Tkinter import *
 
 import datetime
 
+import os
+
 import VitaTime
 
 try:
@@ -18,6 +20,8 @@ def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w, root
     root = Tk()
+    root.protocol("WM_DELETE_WINDOW", lambda: os._exit(0))
+    root.resizable(0, 0)
     psvtrophyisgoodRandomTime_support.set_Tk_var()
     top = Randomize_Timestamp (root)
     psvtrophyisgoodRandomTime_support.init(root, top)
@@ -104,20 +108,20 @@ class Randomize_Timestamp:
 
         self.Minutes = ttk.Combobox(top)
         self.Minutes.place(relx=0.63, rely=0.21, relheight=0.1, relwidth=0.09)
-        self.value_list = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24",]
+        self.value_list = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14","15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29","30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44","45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", ]
         self.Minutes.configure(values=self.value_list)
         self.Minutes.configure(textvariable=psvtrophyisgoodRandomTime_support.minute)
         self.Minutes.configure(takefocus="")
-        self.Minutes.set(timestamp2.minute)
+        self.Minutes.set(self.value_list[timestamp2.minute])
         self.Minutes.bind("<Key>", lambda e: "break")
 
         self.Hours = ttk.Combobox(top)
         self.Hours.place(relx=0.74, rely=0.21, relheight=0.1, relwidth=0.09)
-        self.value_list = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59",]
+        self.value_list = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14","15", "16", "17", "18", "19", "20", "21", "22", "23" ]
         self.Hours.configure(values=self.value_list)
         self.Hours.configure(textvariable=psvtrophyisgoodRandomTime_support.hour)
         self.Hours.configure(takefocus="")
-        self.Hours.set(self.value_list[timestamp2.hour-1])
+        self.Hours.set(self.value_list[timestamp2.hour])
         self.Hours.bind("<Key>", lambda e: "break")
 
         self.secs = ttk.Combobox(top)
@@ -126,7 +130,7 @@ class Randomize_Timestamp:
         self.secs.configure(values=self.value_list)
         self.secs.configure(textvariable=psvtrophyisgoodRandomTime_support.second)
         self.secs.configure(takefocus="")
-        self.secs.set(self.value_list[timestamp2.second-1])
+        self.secs.set(self.value_list[timestamp2.second])
         self.secs.bind("<Key>", lambda e: "break")
 
         self.Label2 = Label(top)
@@ -190,20 +194,21 @@ class Randomize_Timestamp:
 
         self.Minutes1 = ttk.Combobox(top)
         self.Minutes1.place(relx=0.63, rely=0.53, relheight=0.1, relwidth=0.09)
-        self.value_list = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24",]
+        self.value_list = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14","15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29","30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44","45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59"]
         self.Minutes1.configure(values=self.value_list)
-        self.Minutes1.configure(textvariable=psvtrophyisgoodRandomTime_support.hour2)
+        self.Minutes1.configure(textvariable=psvtrophyisgoodRandomTime_support.minute2)
         self.Minutes1.configure(takefocus="")
-        self.Minutes1.set(timestamp.minute)
+        print timestamp.minute
+        self.Minutes1.set(self.value_list[timestamp.minute])
         self.Minutes1.bind("<Key>", lambda e: "break")
 
+        self.value_list = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14","15", "16", "17", "18", "19", "20", "21", "22", "23"]
         self.Hours1 = ttk.Combobox(top)
         self.Hours1.place(relx=0.74, rely=0.53, relheight=0.1, relwidth=0.09)
-        self.value_list = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59",]
         self.Hours1.configure(values=self.value_list)
-        self.Hours1.configure(textvariable=psvtrophyisgoodRandomTime_support.minute2)
+        self.Hours1.configure(textvariable=psvtrophyisgoodRandomTime_support.hour2)
         self.Hours1.configure(takefocus="")
-        self.Hours1.set(self.value_list[timestamp.hour-1])
+        self.Hours1.set(self.value_list[timestamp.hour])
         self.Hours1.bind("<Key>", lambda e: "break")
 
         self.secs1 = ttk.Combobox(top)
@@ -212,7 +217,7 @@ class Randomize_Timestamp:
         self.secs1.configure(values=self.value_list)
         self.secs1.configure(textvariable=psvtrophyisgoodRandomTime_support.second2)
         self.secs1.configure(takefocus="")
-        self.secs1.set(self.value_list[timestamp.second-1])
+        self.secs1.set(self.value_list[timestamp.second])
         self.secs1.bind("<Key>", lambda e: "break")
 
         self.Label7 = Label(top)

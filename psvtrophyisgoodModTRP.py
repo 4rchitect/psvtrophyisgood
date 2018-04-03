@@ -106,9 +106,9 @@ class modTRP:
             else:
                 isUnlocked = "L"
             if isUnlocked == "U":
-                if int(tp["timestamp"][0],16) >= 63082280000000000:
+                if int(tp["timestamp"][0],16) >= 63000000000000000:
                     timestamp = "-"+str(VitaTime.decodeTimestamp(tp["timestamp"][0]))
-                elif int(tt["timestamp"],16) >= 63082280000000000 and tt["unlocked"]:
+                elif int(tt["timestamp"],16) >= 63000000000000000 and tt["unlocked"]:
                     timestamp = "-" + str(VitaTime.decodeTimestamp(tt["timestamp"]))
                 else:
                     timestamp = "-NaN"

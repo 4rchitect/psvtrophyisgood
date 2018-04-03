@@ -89,8 +89,7 @@ def findDataZone(v):
         end = begin + 92
         a += 1
 
-    return {'begin': begin,
-     'end': end}
+    return {'begin': begin,'end': end}
 
 
 def getDataBlock(v):
@@ -151,7 +150,7 @@ def writeTimestamp(v, timestamp):
     dataBlock = getDataBlock(v)
     a = dataBlock[:52]
     b = dataBlock[82:]
-    newDataBlock = a + timestamp + '00' + timestamp + b
+    newDataBlock = a + timestamp + '00' + '00000000000000' + b
     a = newDataBlock[:38]
     b = newDataBlock[40:]
     newDataBlock = a + '20' + b

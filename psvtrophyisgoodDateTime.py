@@ -23,18 +23,18 @@ def vp_start_gui(v0,v1):
     ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/"+npcommid+"/TRPTRANS.DAT")
     ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npcommid + "/TRPTITLE.DAT")
     timestamp = ParseTRPTRNS.parseTrophyDataBlock(trophyid)["timestamp"][0]
-    if int(timestamp,16) < 63082281600000000:
+    if int(timestamp,16) <= 63000000000000000:
         timestamp = ParseTRPTRNS.parseTrophyDataBlock(trophyid)["timestamp"][1]
-        if int(timestamp,16) < 63082281600000000:
+        if int(timestamp,16) <= 63000000000000000:
             timestamp = ParseTRPTITLE.parseDataBlock(trophyid)["timestamp"]
-            if int(timestamp,16) < 63082281600000000:
+            if int(timestamp,16) <= 63000000000000000:
                 timestamp = ParseTRPTITLE.parseDataBlock(trophyid)["timestamp2"]
-                if int(timestamp,16) < 63082281600000000:
+                if int(timestamp,16) <= 63000000000000000:
                     try:
                         timestamp = psvtrophyisgoodDateTime_support.getLastTime()
                     except:
                         timestamp = "E01D003A63A000"
-                    if int(timestamp,16) < 63082281600000000:
+                    if int(timestamp,16) < 63000000000000000:
                         timestamp = "E01D003A63A000"
 
     timestamp = VitaTime.decodeTimestamp(timestamp)
@@ -121,7 +121,7 @@ class Change_Timestamp:
         self.dayBox.configure(textvariable=psvtrophyisgoodDateTime_support.day)
         self.dayBox.configure(width=47)
         self.dayBox.configure(takefocus="")
-        self.dayBox.set(self.value_list[timestamp.month - 1])
+        self.dayBox.set(self.value_list[timestamp.day-1])
         self.dayBox.bind("<Key>", lambda e: "break")
 
         self.hourBox = ttk.Combobox(top)
@@ -132,7 +132,7 @@ class Change_Timestamp:
         self.hourBox.configure(textvariable=psvtrophyisgoodDateTime_support.hour)
         self.hourBox.configure(width=37)
         self.hourBox.configure(takefocus="")
-        self.hourBox.set(self.value_list[timestamp.hour - 1])
+        self.hourBox.set(self.value_list[timestamp.hour])
         self.hourBox.bind("<Key>", lambda e: "break")
 
         self.minuteBox = ttk.Combobox(top)
@@ -143,7 +143,7 @@ class Change_Timestamp:
         self.minuteBox.configure(textvariable=psvtrophyisgoodDateTime_support.minute)
         self.minuteBox.configure(width=37)
         self.minuteBox.configure(takefocus="")
-        self.minuteBox.set(self.value_list[timestamp.minute - 1])
+        self.minuteBox.set(self.value_list[timestamp.minute])
         self.minuteBox.bind("<Key>", lambda e: "break")
 
         self.secondBox = ttk.Combobox(top)
@@ -154,7 +154,7 @@ class Change_Timestamp:
         self.secondBox.configure(textvariable=psvtrophyisgoodDateTime_support.second)
         self.secondBox.configure(width=37)
         self.secondBox.configure(takefocus="")
-        self.secondBox.set(self.value_list[timestamp.second - 1])
+        self.secondBox.set(self.value_list[timestamp.second])
         self.secondBox.bind("<Key>", lambda e: "break")
 
         self.Label2 = Label(top)
