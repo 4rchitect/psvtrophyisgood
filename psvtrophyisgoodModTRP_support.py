@@ -1,8 +1,13 @@
+import Tkinter
+import json
 import tkMessageBox
 
 
 import os
+import tkSimpleDialog
 
+import datetime
+import requests
 import ParseTRPSFM
 import ParseTRPTITLE
 import ParseTRPTRNS
@@ -148,6 +153,81 @@ def unlockTrophy(npCommId,trophy):
     ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
     ParseTRPTITLE.unlockTrophy(trophyId)
     ParseTRPTRNS.unlockTrophy(trophyId)
+    psvtrophyisgoodModTRP.vp_start_gui(npCommId)
+
+def stealFromPsn(npCommId):
+    destroy_window()
+    window = Tkinter.Tk()
+    window.wm_withdraw()
+
+
+    userInfoCookie = ""
+    ##Nice try :3
+
+    onlineId = tkSimpleDialog.askstring(title="Trophy Stealer",prompt="Enter a PSN Username of someone who has this trophy set.")
+    if onlineId == None:
+        window.destroy()
+        psvtrophyisgoodModTRP.vp_start_gui(npCommId)
+
+    headers = {"Accept": "application/json, text/javascript, */*; q=0.01", "Accept-Encoding": "zip, deflate, br",
+               "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8", "Connection": "keep-alive",
+               "Host": "io.playstation.com", "Origin": "https://www.playstation.com",
+               "Referer": "https://www.playstation.com/en-ca/my/compare-game-trophies/",
+               "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/64.0.3282.167 Chrome/64.0.3282.167 Safari/537.36"}  ##So that where not saying "Hello im a bot!" to sony.
+    url = "https://io.playstation.com/playstation/psn/profile/compareGames/trophies/data"
+    params = (("gameId", npCommId), ("userIds", onlineId + "," + onlineId.lower()), ("userInfoCookie", userInfoCookie))
+    try:
+        print "Connecting to PSN..."
+        trophyData = json.loads(requests.get(url=url, params=params, headers=headers).content)
+    except:
+        tkMessageBox.showerror(title="Connection Failed.",message="Could not contact server.")
+    try:
+        trophyData = trophyData['users']
+        trophyData = trophyData[0]
+        trophyData = trophyData['list']
+        if trophyData != []:
+            print trophyData
+
+            ## Lock all trophys
+
+            ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/conf/" + npCommId + "/TROP.SFM")
+            numTrophys = ParseTRPSFM.getNumberOfTrophies()
+            a = 0
+            while a != numTrophys:
+                ParseTRPTRNS.init(os.path.dirname(
+                    os.path.realpath(__file__)) + "/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+                ParseTRPTITLE.init(os.path.dirname(
+                    os.path.realpath(__file__)) + "/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
+                ParseTRPTITLE.lockTrophy(a)
+                if ParseTRPTRNS.findDataBlockForTrophy(a) != -1:
+                    ParseTRPTRNS.lockTrophy(a)
+                a += 1
+
+            ## Unlock Trophys
+            a = 0
+            ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/conf/" + npCommId + "/TROP.SFM")
+            while a != ParseTRPSFM.getNumberOfTrophies():
+                tropInfo = trophyData[a]
+                if tropInfo['trophyWon'] != 0:
+                    ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+                    ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
+                    ParseTRPTITLE.unlockTrophy(a)
+                    ParseTRPTRNS.unlockTrophy(a)
+
+                    ## Write timestamps
+                    unlockDate = datetime.datetime.strptime(tropInfo['trophyStamp'], "%Y-%m-%dT%H:%M:%SZ")
+                    unlockDate = str(unlockDate)
+                    timestamp = VitaTime.encodeTimestamp(unlockDate + ".00")
+                    ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(a), timestamp)
+                    ParseTRPTITLE.writeTimestamp(a, timestamp)
+
+                a += 1
+
+        else:
+            tkMessageBox.showerror(title="Trophy Set Not Found", message="The user you specified does not have this trophy set.")
+    except:
+        tkMessageBox.showerror(title="Trophy Set Not Found",message="The user you specified does not have this trophy set.")
+    window.destroy()
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 
 def unlockAll(npCommId):

@@ -135,11 +135,18 @@ class modTRP:
         self.Labelframe3.configure(width=180)
 
         self.changeStamp = Button(self.Labelframe3)
-        self.changeStamp.place(relx=0.0, rely=0.0, height=26, width=170)
+        self.changeStamp.place(relx=0.0, rely=0.0, height=26, width=130)
         self.changeStamp.configure(activebackground="#d9d9d9")
         self.changeStamp.configure(command=lambda: psvtrophyisgoodModTRP_support.cngStamp(npCommId,self.trophySelection.get(ACTIVE)))
         self.changeStamp.configure(text='''Change''')
-        self.changeStamp.configure(width=170)
+        self.changeStamp.configure(width=130)
+
+        self.PSNSteal = Button(self.Labelframe3)
+        self.PSNSteal.place(relx=0.78, rely=0.0, height=27, width=37)
+        self.PSNSteal.configure(activebackground="#d9d9d9")
+        self.PSNSteal.configure(command=lambda: psvtrophyisgoodModTRP_support.stealFromPsn(npCommId))
+        self.PSNSteal.configure(text='''PSN''')
+        self.PSNSteal.configure(width=36)
 
         self.randomStamp = Button(self.Labelframe3)
         self.randomStamp.place(relx=0.0, rely=0.47, height=26, width=130)
