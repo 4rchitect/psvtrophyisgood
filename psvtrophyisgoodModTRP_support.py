@@ -157,6 +157,7 @@ def unlockTrophy(npCommId,trophy):
 
 def stealFromPsn(npCommId):
     destroy_window()
+
     window = Tkinter.Tk()
     window.wm_withdraw()
 
@@ -181,6 +182,8 @@ def stealFromPsn(npCommId):
         trophyData = json.loads(requests.get(url=url, params=params, headers=headers).content)
     except:
         tkMessageBox.showerror(title="Connection Failed.",message="Could not contact server.")
+        window.destroy()
+        psvtrophyisgoodModTRP.vp_start_gui(npCommId)
     try:
         trophyData = trophyData['users']
         trophyData = trophyData[0]
@@ -191,9 +194,8 @@ def stealFromPsn(npCommId):
             ## Lock all trophys
 
             ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/conf/" + npCommId + "/TROP.SFM")
-            numTrophys = ParseTRPSFM.getNumberOfTrophies()
             a = 0
-            while a != numTrophys:
+            while a != ParseTRPSFM.getNumberOfTrophies():
                 ParseTRPTRNS.init(os.path.dirname(
                     os.path.realpath(__file__)) + "/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
                 ParseTRPTITLE.init(os.path.dirname(
@@ -214,11 +216,16 @@ def stealFromPsn(npCommId):
                     ParseTRPTITLE.unlockTrophy(a)
                     ParseTRPTRNS.unlockTrophy(a)
 
+
                     ## Write timestamps
                     unlockDate = datetime.datetime.strptime(tropInfo['trophyStamp'], "%Y-%m-%dT%H:%M:%SZ")
                     unlockDate = str(unlockDate)
                     timestamp = VitaTime.encodeTimestamp(unlockDate + ".00")
+                    ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+                    ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
+                    print ParseTRPTRNS.findDataBlockForTrophy(a)
                     ParseTRPTRNS.writeTimestamp(ParseTRPTRNS.findDataBlockForTrophy(a), timestamp)
+                    print a
                     ParseTRPTITLE.writeTimestamp(a, timestamp)
 
                 a += 1
@@ -228,6 +235,7 @@ def stealFromPsn(npCommId):
     except:
         tkMessageBox.showerror(title="Trophy Set Not Found",message="The user you specified does not have this trophy set.")
     window.destroy()
+
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 
 def unlockAll(npCommId):

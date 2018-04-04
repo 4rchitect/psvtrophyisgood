@@ -59,9 +59,7 @@ def getTrophyDataBlock(v):
 
 def findDataBlockForTrophy(trophyId):
     a = 0
-    ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/conf/"+getNpCommId()+"/TROP.SFM")
-    numTrophys = ParseTRPSFM.getNumberOfTrophies()
-    while a != numTrophys:
+    while a != 0x8F:
         if parseTrophyDataBlock(a)["trophyId"] == trophyId:
             return a
         a += 1
@@ -81,7 +79,7 @@ def writeTimestamp(v,timestamp):
 
 def findFreeTrophyDataBlock():
     a = 1
-    while a != 0xFF:
+    while a != 0x8F:
         if parseTrophyDataBlock(a)["unlocked"] == False:
             break
         a += 1

@@ -40,10 +40,4 @@ frosty, wosley, shadow, levi, Justin, and LaughTracks aka In_Her_Own_Words (foun
 Please no commercial use / trophy service. unless its a free trophy service thanks.
 
 
-# Building / Running from source.
-If you build / run the application from source, you require the 'requests' module
-you can get that by running 'pip install requests' though keep in mind
-the PSN trophy stealer will not work, unless you add in your own 'userInfoCookie' into psvtrophyisgoodModTRP.py.
-
-
 Want to donate to me? really? ok: https://goo.gl/dvHkEh
