@@ -35,6 +35,7 @@ def getTrophyId(trophy):
     trophyid = trophyid[:b]
     trophyid = int(trophyid)
     return trophyid
+
 def back():
     destroy_window()
     psvtrophyisgoodSelectSet.vp_start_gui()
@@ -57,13 +58,16 @@ def cngStamp(npcommid,trophy):
 
 
 
-
-
 def lockTrophy(npCommId,trophy):
     destroy_window()
     trophyId = getTrophyId(trophy)
-    ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
     ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
+    ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+    if ParseTRPTRNS.findDataBlockForTrophy(trophyId) == -1:
+        ParseTRPTRNS.unlockTrophy(trophyId)
+        ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+        ## Program could crash when trying to lock a trophy found in TRPTITLE but not TRPTRANS.
+        ## This fixes that.
     ParseTRPTITLE.lockTrophy(trophyId)
     ParseTRPTRNS.lockTrophy(trophyId)
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
@@ -76,8 +80,14 @@ def lockALL(npCommId):
         ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
         ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
         ParseTRPTITLE.lockTrophy(trophyId)
-        if ParseTRPTRNS.findDataBlockForTrophy(trophyId) != -1:
-            ParseTRPTRNS.lockTrophy(trophyId)
+
+        if ParseTRPTRNS.findDataBlockForTrophy(trophyId) == -1:
+            ParseTRPTRNS.unlockTrophy(trophyId)
+            ParseTRPTRNS.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/data/" + npCommId + "/TRPTRANS.DAT")
+            ## Program could crash when trying to lock a trophy found in TRPTITLE but not TRPTRANS.
+            ## This fixes that.
+
+        ParseTRPTRNS.lockTrophy(trophyId,True)
         trophyId += 1
     destroy_window()
     psvtrophyisgoodModTRP.vp_start_gui(npCommId)
@@ -163,18 +173,14 @@ def stealFromPsn(npCommId):
 
 
     userInfoCookie = ""
-    ##Nice try :3
+    ##Throwaway account i dont care about ^
 
     onlineId = tkSimpleDialog.askstring(title="Trophy Stealer",prompt="Enter a PSN Username of someone who has this trophy set.")
     if onlineId == None:
         window.destroy()
         psvtrophyisgoodModTRP.vp_start_gui(npCommId)
 
-    headers = {"Accept": "application/json, text/javascript, */*; q=0.01", "Accept-Encoding": "zip, deflate, br",
-               "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8", "Connection": "keep-alive",
-               "Host": "io.playstation.com", "Origin": "https://www.playstation.com",
-               "Referer": "https://www.playstation.com/en-ca/my/compare-game-trophies/",
-               "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/64.0.3282.167 Chrome/64.0.3282.167 Safari/537.36"}  ##So that where not saying "Hello im a bot!" to sony.
+    headers = {"Accept": "application/json, text/javascript, */*; q=0.01", "Accept-Encoding": "zip, deflate, br","Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8", "Connection": "keep-alive","Host": "io.playstation.com", "Origin": "https://www.playstation.com","Referer": "https://www.playstation.com/en-ca/my/compare-game-trophies/","User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/64.0.3282.167 Chrome/64.0.3282.167 Safari/537.36"}  ##So that where not saying "Hello im a bot!" to sony.
     url = "https://io.playstation.com/playstation/psn/profile/compareGames/trophies/data"
     params = (("gameId", npCommId), ("userIds", onlineId + "," + onlineId.lower()), ("userInfoCookie", userInfoCookie))
     try:
@@ -184,6 +190,7 @@ def stealFromPsn(npCommId):
         tkMessageBox.showerror(title="Connection Failed.",message="Could not contact server.")
         window.destroy()
         psvtrophyisgoodModTRP.vp_start_gui(npCommId)
+        return -1
     try:
         trophyData = trophyData['users']
         trophyData = trophyData[0]
@@ -202,10 +209,11 @@ def stealFromPsn(npCommId):
                     os.path.realpath(__file__)) + "/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
                 ParseTRPTITLE.lockTrophy(a)
                 if ParseTRPTRNS.findDataBlockForTrophy(a) != -1:
-                    ParseTRPTRNS.lockTrophy(a)
+                    ParseTRPTRNS.lockTrophy(a,True)
                 a += 1
 
             ## Unlock Trophys
+
             a = 0
             ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/conf/" + npCommId + "/TROP.SFM")
             while a != ParseTRPSFM.getNumberOfTrophies():
@@ -215,7 +223,6 @@ def stealFromPsn(npCommId):
                     ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/data/" + npCommId + "/TRPTITLE.DAT")
                     ParseTRPTITLE.unlockTrophy(a)
                     ParseTRPTRNS.unlockTrophy(a)
-
 
                     ## Write timestamps
                     unlockDate = datetime.datetime.strptime(tropInfo['trophyStamp'], "%Y-%m-%dT%H:%M:%SZ")

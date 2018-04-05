@@ -1,9 +1,9 @@
 import binascii
-
 import os
-
 import ParseTRPSFM
 import ParseTRPTITLE
+
+
 def init(path):
     global trpData
     global readPath
@@ -78,7 +78,7 @@ def writeTimestamp(v,timestamp):
     open(readPath, "wb").write(trpData)
 
 def findFreeTrophyDataBlock():
-    a = 1
+    a = 0
     while a != 0x8F:
         if parseTrophyDataBlock(a)["unlocked"] == False:
             break
@@ -98,6 +98,36 @@ def setAccountId(aid):
         b = newTrpData[0x18c:]
         newTrpData = a + "\x01" + b
     open(readPath, "wb").write(newTrpData)
+
+def reOrginizeTrophys():
+    a = 0
+    trophyDatas = []
+    ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/conf/" + getNpCommId() + "/TROP.SFM")
+    while a != ParseTRPSFM.getNumberOfTrophies():
+        if findDataBlockForTrophy(a) != -1:
+            if parseTrophyDataBlock(findDataBlockForTrophy(a))["unlocked"]:
+                trophyId = parseTrophyDataBlock(findDataBlockForTrophy(a))["trophyId"]
+                timestamp = parseTrophyDataBlock(findDataBlockForTrophy(a))["timestamp"][0]
+                trophyDatas.append({"timestamp":timestamp,"trophyId":trophyId})
+        a += 1
+    print trophyDatas
+
+    a = 0
+    while a != ParseTRPSFM.getNumberOfTrophies():
+        init(readPath)
+        if findDataBlockForTrophy(a)!= -1:
+            lockTrophy(a,True)
+        a += 1
+    a = 0
+    while a != len(trophyDatas):
+        ParseTRPSFM.init(os.path.dirname(os.path.realpath(__file__)) + "/trophyDownloaded/conf/" + getNpCommId() + "/TROP.SFM")
+        init(readPath)
+        trophyInfo = trophyDatas[a]
+        unlockTrophy(trophyInfo["trophyId"])
+        writeTimestamp(findDataBlockForTrophy(trophyInfo["trophyId"]),trophyInfo["timestamp"])
+        a += 1
+
+
 
 
 def unlockTrophy(v):
@@ -133,6 +163,9 @@ def unlockTrophy(v):
     a = trophyDataBlock[32+2:]
     b = trophyDataBlock[:32]
     trophyDataBlock = b + "02" + a
+    a = trophyDataBlock[38+2:]
+    b = trophyDataBlock[:38]
+    trophyDataBlock = b + "00" + a
     a = trophyDataBlock[102+2:]
     b = trophyDataBlock[:102]
     trophyDataBlock = b + "20" + a
@@ -154,7 +187,7 @@ def unlockTrophy(v):
 
 
 
-def lockTrophy(v):
+def lockTrophy(v,dontReorg=False):
     dataBlockId = findDataBlockForTrophy(v)
     origTrophyDataBlock = getTrophyDataBlock(dataBlockId)
     a = origTrophyDataBlock[96+2:]
@@ -162,6 +195,9 @@ def lockTrophy(v):
     trophyDataBlock = b + "00" + a
     a = trophyDataBlock[32+2:]
     b = trophyDataBlock[:32]
+    trophyDataBlock = b + "00" + a
+    a = trophyDataBlock[38+2:]
+    b = trophyDataBlock[:38]
     trophyDataBlock = b + "00" + a
     a = trophyDataBlock[102+2:]
     b = trophyDataBlock[:102]
@@ -180,6 +216,8 @@ def lockTrophy(v):
         setNumberOfUnlockedTrophies(unlockedTrophys)
     ParseTRPTITLE.init(os.path.dirname(os.path.realpath(__file__))+"/trophyDownloaded/data/" + getNpCommId() + "/TRPTITLE.DAT")
     ParseTRPTITLE.lockTrophy(v)
+    if dontReorg == False:
+        reOrginizeTrophys()
 
 
 def parseTrophyDataBlock(v):
